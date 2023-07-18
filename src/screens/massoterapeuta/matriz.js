@@ -7,9 +7,9 @@ import { MaterialIcons,Feather  } from '@expo/vector-icons';
 import { FlatList, ScrollView } from 'react-native-web';
 import { NavigationContainer, useNavigation } from '@react-navigation/native';
 import FormsAgendamento from '../../components/FormsAgendamento';
-import { refrestPage } from '../../util/util';
+import util from '../../util/util';
 
-const url = 'http://localhost:9091/bemEstar/horariosDisponivies'
+
 
 
 
@@ -36,7 +36,7 @@ const AgendamentoMassoMatriz =   () => {
         servicoId
       };
   try{
-      const response = await axios.post(url, dados);
+      const response = await axios.post(util.urlHorariosDisponiveis, dados);
       const diasSemanaDisponiveis = response.data.agenda || [];
      
       if(diasSemanaDisponiveis.length <= 0){
@@ -57,7 +57,7 @@ const AgendamentoMassoMatriz =   () => {
     catch (erro){
       console.warn('Não foi possível buscar os dados da API');
       alert('Não foi possível buscar os dados da API');
-     refrestPage()
+    util.refrestPage()
     }
     };
   
