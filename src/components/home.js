@@ -12,14 +12,14 @@ const HomeScreen = () => {
   };
 
   return (
-    <>
+    <View style={{backgroundColor: '#eeeeec'}}>
    
     
       <View style={styles.header}>
         <View style={styles.login}>
           <Pressable  onPress={() => navigation.navigate('Login')}>
           <FontAwesome5 name="user" size={40}/> 
-          <Text>Entrar</Text>        
+          <Text style={{ fontFamily: 'Harabara'}}>Entrar</Text>        
 
           </Pressable>
 
@@ -64,21 +64,23 @@ const HomeScreen = () => {
         onPress={() => handleCardPress('massoterapiaGLP')}
       >
         <Text style={styles.cardTitle}>Massoterapeuta Neolog</Text>
-        <Text style={styles.cardDescription}>Veja as últimas atualizações da Achelog.</Text>
+        <Text style={styles.cardDescription}>Agende uma consulta com a Massoterapeuta no GLP.</Text>
+
       </TouchableOpacity>
 
       <TouchableOpacity
         style={styles.card}
-        onPress={() => handleCardPress('massoterapiaMatrix')}
+        onPress={() => handleCardPress('massoterapiaMatriz')}
       >
-        <Text style={styles.cardTitle}>Massoterapeuta Matrix</Text>
-        <Text style={styles.cardDescription}>Acesse a Matrix para visualizar dados.</Text>
+        <Text style={styles.cardTitle}>Massoterapeuta Matriz</Text>
+        <Text style={styles.cardDescription}>Agende uma consulta com a Massoterapeuta na Matriz.</Text>
+
       </TouchableOpacity>
     
     </View>
     
 
-    </>
+    </View>
   );
 };
 
@@ -96,7 +98,7 @@ const styles = StyleSheet.create({
   heading: {
     marginTop: 30,
     color: 'black',
-    fontFamily: 'Keypass Demo',
+    fontFamily: 'Harabara',
     fontSize: 20,
     fontWeight: 'bold'
 
@@ -113,23 +115,25 @@ const styles = StyleSheet.create({
     
 
   },
+  subheading: {
+    fontFamily: 'source sans pro'
+  },
   login: {
     position: 'absolute',
     top: 0,
-    right: 100,
+    right: '10%',
     margin: 10,
     alignItems: 'flex-end',
   },
   title: {
     fontSize: 24,
     fontWeight: 'bold',
-    fontFamily: 'Keypass Demo',
+    fontFamily: 'Harabara',
     marginBottom: 16,
   },
   subtitle: {
     fontSize: 20,
     color: 'gray',
-    fontFamily: 'Keypass Demo',
     marginBottom: 16,
     textAlign: 'center'
   },
@@ -145,17 +149,22 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.1,
     shadowRadius: 4,
     elevation: 2,
+    minWidth: 300,
+    maxWidth: 300,
+    minHeight: 70,
+    maxHeight: 100,
+    
   },
   cardTitle: {
     fontSize: 18,
-    fontFamily: 'Keypass Demo',
+    fontFamily: 'Harabara',
     fontWeight: 'bold',
     marginBottom: 8,
   },
-  cardTime: {
+  cardDescription: {
     fontSize: 14,
-    fontFamily: 'Keypass Demo',
-    color: '#888',
+    fontFamily: 'source sans pro',
+    color: 'black',
   },
 
 });

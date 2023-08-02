@@ -11,17 +11,11 @@ import { Card } from './cardHorarios';
 
 const ControleAgendas =   () => {
 
-  const [date, setDate] = useState(new Date())
-  const [markedDates, setMarkedDates] = useState({});
-  const [hora, setHorario] = useState([]);
-  const [isLoading, setIsLoading] = useState(true);
-  const [selectedDate, setSelectedDate] = useState('');
-  const [selectedHorario, setselectedHorario] = useState();
-  const [setnull, setNull] = useState(null);
-  const [horaa, sethoraa] = useState([]);
-  const [navegar, setNavegar] = useState();
 
-  const navigation = useNavigation();
+  const [hora, setHorario] = useState([]);
+  const [setnull, setNull] = useState(null);
+  
+
   useEffect(() => {
     //setIsLoading(true);
     fetchApi();
@@ -30,22 +24,20 @@ const ControleAgendas =   () => {
 
     const fetchApi = async () => {
 
-        const dadosArmazenados = localStorage.getItem('dados');
+        const dadosArmazenados = sessionStorage.getItem('dados');
         const dadosLogados = JSON.parse(dadosArmazenados);
-    
+
+        
   
     const headers ={
       headers: {
       'authorization': `Bearer ${dadosLogados.token}`
     }
     }
-     const especialidade = 'psicologa';
-      const servicoId = 'psicologaGLP';
-      
-  
+   
       
   try{
-      const response = await axios.get(util.urlGEThorarioFuncio + especialidade + '/'+ servicoId, headers);
+      const response = await axios.get(util.urlGEThorarioFuncio + dadosLogados.especialidade + '/'+ dadosLogados.user, headers);
 
       const diasSemanaDisponiveis = response.data// || [];
     //  console.log(response.data)
@@ -77,44 +69,5 @@ const ControleAgendas =   () => {
   };
 
   
- 
-const styles = StyleSheet.create({
-  cardContainer: {
-    backgroundColor: '#f9f9f9',
-    borderRadius: 8,
-    padding: 16,
-    marginBottom: 16,
-  },
-  cardTitle: {
-    fontSize: 18,
-    fontWeight: 'bold',
-    marginBottom: 8,
-  },
-  editableItem: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    marginBottom: 8,
-  },
-  label: {
-    marginRight: 8,
-    fontWeight: 'bold',
-  },
-  input: {
-    flex: 1,
-    borderWidth: 1,
-    borderColor: '#ccc',
-    borderRadius: 4,
-    padding: 8,
-  },
-  saveButton: {
-    backgroundColor: 'blue',
-    borderRadius: 4,
-    padding: 8,
-    alignItems: 'center',
-  },
-  buttonText: {
-    color: 'white',
-    fontWeight: 'bold',
-  },
- })
+
 export default ControleAgendas;

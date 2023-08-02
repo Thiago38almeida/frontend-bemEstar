@@ -4,6 +4,7 @@ import axios from 'axios';
 import { useEffect, useState } from 'react';
 import {View, Text,TouchableOpacity, Pressable} from 'react-native';
 import { StyleSheet } from 'react-native';
+import util from '../util/util';
 
 
 const UserIcon = () => {
@@ -14,7 +15,7 @@ const UserIcon = () => {
     const navigation = useNavigation();  
 
 
-    const tokeen = localStorage.getItem('token')
+    const tokeen = sessionStorage.getItem('token')
     
     useEffect(() => {
       if(tokeen != '' ||  null){
@@ -36,20 +37,21 @@ const UserIcon = () => {
     //const [isLoggedIn, setIsLoggedIn] = useState(false);
 
     const handleLogin = () => {
-      navigation.navigate('Login',
-
-      )};
+      navigation.navigate('Login')};
   
     
   
     const handleSair = async () => {
       try{
         
-       localStorage.removeItem('token');
+      await axios.post(util.urllogout)
         setisLoggedIn(false);
         navigation.navigate('Home');
       } catch (error) {
         console.log('erro:', error);
+        sessionStorage.removeItem('dados');
+        navigation.navigate('Home');
+
       }
    
     

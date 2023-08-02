@@ -8,6 +8,7 @@ import { ScrollView } from 'react-native-web';
 import {  useNavigation } from '@react-navigation/native';
 import Reagendar from '../screensUsers/Reagendamento';
 import util from '../util/util';
+import styleWebMobile from '../style';
 
 
 
@@ -28,6 +29,8 @@ const Reagendamento =   ({data, horario , id, id_especialista, servicoId}) => {
   const [navegar, setNavegar] = useState();
 
   const navigation = useNavigation();
+
+  console.log(servicoId)
 
     const fetchApi = async () => {
         const especialidade = id_especialista;
@@ -180,11 +183,7 @@ setselectedHorario('')
   const dataHoje = moment(data).format('DD/MM/YYYY')
   const dataHojeHoras = moment(horario).format('HH:mm')
 
-  console.log(dataHoje)
-  console.log(dataHojeHoras)
-  console.log(data)
-  console.log(moment(horario).format('HH:mm'))
-  console.log(id)
+
     //navegação para telas
   
   if(navegar) {    
@@ -193,6 +192,7 @@ setselectedHorario('')
   }
 
   return (
+    <View style={{backgroundColor: '#4B4544', justifyContent: 'center', alignItems: 'center', flex: 1}}>
     <View style={styles.container}>
       <View style={styles.containerGrid}>
         <View style={styles.containerInfo}>
@@ -284,31 +284,39 @@ setselectedHorario('')
 
      
     </View>
+  </View>
    
   
   )};
   
  
-const styles = StyleSheet.create({
- container: {
-  flex: 1,
-  alignItems: 'center',
-  justifyContent: 'center',
-  backgroundColor: '#4B4544',
-  borderRadius: 1,
-  flexDirection: 'column'
+const styles = styleWebMobile;
+/*StyleSheet.create({
+  container: {
+    flex: 1,
+    alignItems: 'center',
+    justifyContent: 'center',
+    backgroundColor: '#e77825',
+    width: '60%',
+    borderColor: 'black',
+    borderWidth: 1,
+    borderRadius: 30,
+    margin: 30,
+    flexDirection: 'column',
+  }, 
+  containerGrid: {
+    flexDirection: 'row',
+    backgroundColor: '#090707',
+    alignItems: 'center',
+    padding: 10,
+    borderWidth: 1,
+    borderRadius: 30,
+    width: '100%',
+    height: 550,
+    maxWidth: 800,
   
-
-  
-}, 
-containerGrid: {
-  flexDirection: 'row',
-  backgroundColor: '#090707',
-  borderWidth: 1,
-  borderRadius: 30,
-
-  
-},
+    
+  },
 Calendar: {
   flex: 1,
   justifyContent:  'center',
@@ -444,5 +452,5 @@ datas: {
   alignItems: 'center',
   },
   });
-
+*/
 export default Reagendamento;

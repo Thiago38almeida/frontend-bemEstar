@@ -3,7 +3,7 @@ import { View, Text, TouchableOpacity, StyleSheet,CheckBox,ScrollView, ActivityI
 //import CheckBox from '@react-native-community/checkbox';
 import moment from 'moment';
 import axios from 'axios';
-import util from '../util/util';
+import util, { refrestPage } from '../util/util';
 
 
 
@@ -28,7 +28,7 @@ const WeekdayButtons = () => {
     '20:00',
   ];
 
-  const dadosArmazenados = localStorage.getItem('dados');
+  const dadosArmazenados = sessionStorage.getItem('dados');
   const dadosLogados = JSON.parse(dadosArmazenados);
 
 const config ={
@@ -72,7 +72,7 @@ const servicoId = dadosLogados.user
           onValueChange={() => handleDaySelection(day, index)}
           tintColors={{ true: '#e77825', false: 'white' }}
         />
-        <Text style={textStyle}>{moment().weekday(index).locale('pt-br').format('dddd')}</Text>
+        <Text style={textStyle}>{moment().weekday(index).locale('pt-br').format('dddd').toUpperCase()}</Text>
       </TouchableOpacity>
     );
   };
@@ -110,15 +110,13 @@ const servicoId = dadosLogados.user
       servicoId
     };
 
-    console.log(dados)
-
     try {
       const response = await axios.post(util.urlPosthorarioServico, dados,config
         );
        // console.log(response)
       if(response.data.status === 201){
         alert(response.data.mensagem)
-        util.refrestPage()
+        refrestPage()
       } 
       else{
       alert('Horario de atendimento alterado!');
@@ -126,6 +124,7 @@ const servicoId = dadosLogados.user
       setSelectedHours('');
       setSelectedIndex('');
       //setEspecialidade('');
+      refrestPage()
     }
   } catch (error) {
       console.log(error);
@@ -160,7 +159,7 @@ console.log(hour)
               servicoId === 'psicologaGLP' && styles.selectedcolaboradorIdButton,
             ]}
           >
-            <Text>ID especialidade logada: {servicoId}</Text>
+            <Text style={{ fontFamily: 'Harabara', fontSize: 20}}>ID especialidade logada: {servicoId}</Text>
           </TouchableOpacity>
   
          </View>
@@ -171,7 +170,7 @@ console.log(hour)
       {
       press && <ActivityIndicator size={100} color={'orange'} />
     }
-      <Text>Horários Disponíveis Selecionados:</Text>
+      <Text style={{ fontFamily: 'Harabara', fontSize: 20, textAlign: 'center'}}>Horários Disponíveis Selecionados:</Text>
       <ScrollView horizontal={true} contentContainerStyle={{flex:1, flexGrow: 1, flexDirection: 'row' }}>
     <View style={{flexDirection:'column'}}>
       <View>
@@ -214,7 +213,7 @@ console.log(hour)
   
     </ScrollView>
    
-      <TouchableOpacity  id='especialidade9' onPress={handleSave} style={styles.saveButton}>
+      <TouchableOpacity  id='especialidade9' onPress={() => handleSave()} style={styles.saveButton}>
         <Text style={styles.saveButtonText}>Salvar</Text>
       </TouchableOpacity>
     </View>
@@ -226,6 +225,8 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     flexWrap: 'wrap',
     marginTop: 10,
+  fontFamily: 'source sans pro',
+  fontSize:'small',
   },
   button: {
     flexDirection: 'row',
@@ -298,6 +299,24 @@ const styles = StyleSheet.create({
 
     
 
+  },
+  saveButton: {
+    position:"absolute",
+    bottom:-20,
+    left:10,
+    zIndex:1,
+  
+
+
+
+
+  },
+  saveButtonText: {
+    backgroundColor: '#e77825',
+    color:'white',
+    width: 120,
+    textAlign: 'center',
+    alignItems: 'center',
   }
 });
 

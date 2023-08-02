@@ -38,7 +38,7 @@ useEffect(() => {
         "servicoId": servicoId
  }
    try{
-   const response = await axios.put(util.urlPUTagendamento + id, dados)
+   const response = await axios.put(util.urlReagendamento + id, dados)
     console.log(response)
    
   //  alert(`Você está agendando para ${name}, dia ${selectedDate}. Horário: ${selectedHorario} no email: ${email}`)

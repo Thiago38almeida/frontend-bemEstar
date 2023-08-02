@@ -8,6 +8,7 @@ import { ScrollView } from 'react-native-web';
 import {  useNavigation } from '@react-navigation/native';
 import Reagendar from '../screensUsers/Reagendamento';
 import util from '../util/util';
+import TelaErro from './telaErro';
 
 
 
@@ -22,7 +23,7 @@ const Reagendamentos =   ({data, horario , id, id_especialista, servicoId}) => {
   const [isLoading, setIsLoading] = useState(true);
   const [selectedDate, setSelectedDate] = useState('');
   const [selectedHorario, setselectedHorario] = useState();
-  const [setdados, setDados] = useState();
+  const [setdados, setDados] = useState(true);
   const [dados, setDatas] = useState([]);
   const [horaa, sethoraa] = useState([]);
   const [navegar, setNavegar] = useState();
@@ -37,21 +38,29 @@ const Reagendamentos =   ({data, horario , id, id_especialista, servicoId}) => {
   const param1 = params.get('param1');
   const param2 = params.get('param2');
   const param3 = params.get('param3');
+  const param4 = params.get('param4');
+  const param5 = params.get('ref');
   
-  console.log(param1, param2, param3);
+ // console.log(p,d,r,t,i);
     const fetchApi = async () => {
-        const especialidade = id_especialista;
-       // const servicoId = servicoid;
+      
         const dataApi = new Date();
     
         const dados = {
           dataApi,
-          especialidade,
-          servicoId
+          especialidade: param4,
+          servicoId: param1
         };
        // console.log(dados)
                
   try{
+
+    const response = await axios.get(util.urlGetAgendamento + param5)
+    const res = response.data
+
+    //console.log(res.length)
+
+    if(res.length > 0){
     
     
     const response = await axios.post(util.urlHorariosDisponiveis, dados);
@@ -66,7 +75,16 @@ const Reagendamentos =   ({data, horario , id, id_especialista, servicoId}) => {
 
     setMarkedDates(marked);
     setIsLoading(false);
+    //setDados(true)
   }
+  else {
+
+    params.delete(queryString)
+    setDados(false);
+
+  
+  
+}}
   catch (erro){
     console.warn('Não foi possível buscar os dados da API');
     alert('Não foi possível buscar os dados da API');
@@ -83,7 +101,14 @@ const Reagendamentos =   ({data, horario , id, id_especialista, servicoId}) => {
       
     }, []);
   
-  
+  if(!setdados){
+    return (
+       
+      <View style={{flex:1, justifyContent:'center', alignItems:"center"}}>
+      <TelaErro/>
+    </View>
+    )
+  }
 
   function CompCalendario() {
 
@@ -190,31 +215,26 @@ setselectedHorario('')
   const dataHoje = moment(data).format('DD/MM/YYYY')
   const dataHojeHoras = moment(horario).format('HH:mm')
 
-  console.log(dataHoje)
-  console.log(dataHojeHoras)
-  console.log(data)
-  console.log(moment(horario).format('HH:mm'))
-  console.log(id)
+
     //navegação para telas
   
   if(navegar) {    
-    return <Reagendar  dataSelecionada= {selectedDate} horarioSelecionada= {selectedHorario} id={id} id_especialista={id_especialista} servicoId={servicoId}/>
+    return <Reagendar  dataSelecionada= {selectedDate} horarioSelecionada= {selectedHorario} id={param5} id_especialista={id_especialista} servicoId={servicoId}/>
   
   }
 
   return (
+  <View style={{flex:1,justifyContent: 'center', alignItems: 'center', alignContent:'center', backgroundColor: '#4B4544'}}>
     <View style={styles.container}>
       <View style={styles.containerGrid}>
         <View style={styles.containerInfo}>
           <View style={{alignItems: 'flex-start', justifyContent: 'flex-start'}}>
             
-          <Text style={styles.textDate}>Data agendada: {dataHoje}</Text>
-          <Text style={styles.textDate}>Hora agendada: {dataHojeHoras}</Text>
+          <Text style={styles.textDate}>Data agendada: {param2}</Text>
+          <Text style={styles.textDate}>Hora agendada: {param3}</Text>
           
-          <Text style={styles.textDate}><Feather name="map-pin" size={24} color="white"style={{marginRight: 5}} />Psicologa Matriz</Text>
-         
-          <Text style={styles.textDateh}> <MaterialIcons name="timer" size={15} color="white" style={{marginRight: 5}}/>1h</Text>
-          
+          <Text style={styles.textDate}><Feather name="map-pin" size={24} color="white"style={{marginRight: 5}} />{param1}</Text>
+              <Image source={require('../../assets/MicrosoftTeams-image (1).png')} style={{width: 200, height:200}}/>       
           </View>
             <View style={{justifyContent:  'center'}} aria-valuetext='image'>
                      
@@ -222,7 +242,7 @@ setselectedHorario('')
 
         </View>
               <View style={{flexDirection: 'column', justifyContent:'center'}}>
-                  <Text style={styles.textDate}
+                  <Text style={[styles.textDate,{marginTop: 20} ]}
                           >Escolha uma data e horário para reagendar</Text>
                 <View style={styles.containerDate}>
                 <CompCalendario />
@@ -294,31 +314,40 @@ setselectedHorario('')
 
      
     </View>
+  </View>
    
   
   )};
   
  
 const styles = StyleSheet.create({
- container: {
-  flex: 1,
-  alignItems: 'center',
-  justifyContent: 'center',
-  backgroundColor: '#4B4544',
-  borderRadius: 1,
-  flexDirection: 'column'
+  container: {
+    flex: 1,
+    alignItems: 'center',
+    justifyContent: 'center',
+    backgroundColor: '#e77825',
+    width: '88%',
+    height: '60%',
+    borderColor: 'black',
+    borderWidth: 1,
+    borderRadius: 30,
+    margin: 50
+    
   
-
+    
+  }, 
+  containerGrid: {
+    flexDirection: 'row',
+    backgroundColor: '#090707',
+    borderWidth: 1,
+    borderRadius: 30,
+    maxWidth:'98%',
+    height: '98%',
+    //width: '100%'
   
-}, 
-containerGrid: {
-  flexDirection: 'row',
-  backgroundColor: '#090707',
-  borderWidth: 1,
-  borderRadius: 30,
-
+    
+  },
   
-},
 Calendar: {
   flex: 1,
   justifyContent:  'center',
@@ -341,7 +370,7 @@ containerInfo: {
   marginBottom: 10,
   borderRightColor: 'white',
   borderRightWidth: 1,
-  width: 350
+  width: '40%'
 },
 
 containerHeaderCalendario: {
@@ -352,12 +381,13 @@ containerHeaderCalendario: {
   height: 100,
 } ,
 textDate: {
-  fontSize: 22,
+  fontSize: 17,
   fontWeight: 'bold',
   color: 'white',
   alignItems: 'center',
   height: 50,
-  textAlign: 'center'
+  textAlign: 'center',
+ 
 },
 textDateh: {
   fontSize: 15,

@@ -1,13 +1,13 @@
-import {View, TouchableOpacity, Text,Image, StyleSheet,ScrollView, Pressable, Button, ActivityIndicator} from 'react-native';
+import {View, TouchableOpacity,Button, Text, StyleSheet,ScrollView} from 'react-native';
 import { useState, useEffect } from 'react';
-import TelaPsicologa from './psicologa';
-import AtendimentoEspecialista from "./GerenciamentoAtendimento";
-import { Feather,FontAwesome,FontAwesome5, MaterialCommunityIcons  } from '@expo/vector-icons'; 
+import {MaterialCommunityIcons  } from '@expo/vector-icons'; 
 import UserIcon from '../../components/iconUsers';
 import { useNavigation } from '@react-navigation/native';
 import axios from 'axios';
 import moment from 'moment';
 import util from '../../util/util';
+import TelaMasso from './massoterapia';
+import AtendimentoEspecialista from './gerenciarAtendimento';
 import LogoMundial from '../../components/logosMundial';
 
 
@@ -51,16 +51,6 @@ const Telahistorico = () => {
     fetchApi();
   }, []);
 
-//Config navegação 
-function Navegar(tela){
-
-
-  
-      navigation.navigate(tela)
-
-
-}
-
 const handleTelaPsicologa =  (event) => {
     //console.log(event)
     setnavegacao(event)
@@ -85,7 +75,7 @@ const handleTelaDisponibilidade = (event) => {
 if(exibirTela && navegacao === 'UserPsicologa'){
   return(
       <View>
-          <TelaPsicologa />
+          <TelaMasso />
       </View>
   )
 } if(exibirTela && navegacao === 'Tela Historico'){
@@ -101,10 +91,6 @@ if(exibirTela && navegacao === 'UserPsicologa'){
         </View>
         )
   }
-
-  // exporar dados execel
-
-
   function filtroDataRecente(itens, pageAtual, limitador){
     // let data = moment().format('DD/MM/YYYY')
      let result = [];
@@ -149,6 +135,7 @@ if(exibirTela && navegacao === 'UserPsicologa'){
    //dados filtrados e ordenados pelo mais recente
    const {resultado, totalPages} = filtroDataRecente(dados,pageAtual,limitador);
 
+
    async function exportToExcel() {
     try {
       if (resultado.length === 0) {
@@ -161,10 +148,7 @@ if(exibirTela && navegacao === 'UserPsicologa'){
       console.log(error);
     }
   }
-
-  
-
-   const Card = ({ title, description }) => {
+  const Card = ({ title, description }) => {
     const [expanded, setExpanded] = useState(false);
     //console.log(title, description)
   
@@ -190,7 +174,6 @@ if(exibirTela && navegacao === 'UserPsicologa'){
                       <Text style={styles.label}><Text style={{fontStyle: 'normal', fontWeight:'bold'}}>Horario:</Text> {moment(description.hora).format('HH:mm')}</Text>
                       <Text style={styles.label}><Text style={{fontStyle: 'normal', fontWeight:'bold'}}>Nome:</Text> {description.nome}</Text>
                       <Text style={styles.label} ><Text style={{fontStyle: 'normal', fontWeight:'bold'}}>Email:</Text> {description.email}</Text>
-                      <Text style={styles.label} ><Text style={{fontStyle: 'normal', fontWeight:'bold'}}>Setor:</Text> {description.setor}</Text>
                     </View> 
                   </View>
               </View>
@@ -212,7 +195,6 @@ if(exibirTela && navegacao === 'UserPsicologa'){
         <UserIcon/>
 
         </View>
-
         <LogoMundial/>
      
         <View style={styles.headerBtn}>
@@ -228,15 +210,16 @@ if(exibirTela && navegacao === 'UserPsicologa'){
           
         </View>
       </View>
-          <View style={{backgroundColor: '#babcb4'}}>
+      <View style={{backgroundColor: '#babcb4'}}>
+      <Button onPress={exportToExcel} title='exportar' color={'green'} />
 
-            <Button onPress={exportToExcel} title='exportar' color={'green'} />
-          <ScrollView>
+          <ScrollView  >
         <View style={styles.grid}>
+          
           {resultado.map((agendamento) => (
 
             <View key={agendamento.id} style={styles.card}>
-                        <Card   title={moment(agendamento.data).format('DD/MM/YYYY')} description={agendamento}></Card>
+            <Card   title={moment(agendamento.data).format('DD/MM/YYYY')} description={agendamento}></Card>
             
 
             </View>
@@ -287,7 +270,6 @@ if(exibirTela && navegacao === 'UserPsicologa'){
      )
 
 }
-
 }
 
 const styles = StyleSheet.create({
@@ -328,7 +310,7 @@ const styles = StyleSheet.create({
       position: "absolute",
       justifyContent: 'flex-start',
       alignContent: 'flex-start',
-      left: '50%',
+      left: '9%',
       marginTop: -15
 },
 logo2: {

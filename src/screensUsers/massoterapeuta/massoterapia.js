@@ -1,36 +1,45 @@
 import React, { useEffect, useState } from "react";
-import { View, Text, StyleSheet, Pressable, FlatList,TouchableOpacity, ScrollView, ActivityIndicator } from "react-native";
-import Menu from "../../components/menusLine";
+import { View, Text, StyleSheet,TouchableOpacity,Button, ScrollView, ActivityIndicator } from "react-native";
 import axios from "axios";
-import Asyncstorage from '@react-native-async-storage/async-storage'
+import { Feather,FontAwesome, MaterialCommunityIcons  } from '@expo/vector-icons'; 
 import moment from "moment/moment";
-import { Feather,FontAwesome,FontAwesome5  } from '@expo/vector-icons'; 
+//import { Feather,FontAwesome } from '@expo/vector-icons'; 
 import UserIcon from "../../components/iconUsers";
-//import TelaPsicologa from './psicologa';
-
-import Telahistorico from "../psicologa/historico";
-import AtendimentoEspecialista from "../psicologa/GerenciamentoAtendimento";
-
-//import {AiOutlineCloseCircle} from "react-icons"
-
+import util from "../../util/util";
+import AtendimentoEspecialista from "./gerenciarAtendimento";
+import Telahistorico from "./historico";
+import LogoMundial from "../../components/logosMundial";
+import Reagendamento from "../../components/reagendar";
 
 
-const TelaPsicologa = ({navigation}) => {
+const TelaMasso = ({navigation}) => {
     const [dados, setDados] = useState([]);
     const [exibirTela, setexibirTela] = useState(false);
     const [navegacao, setnavegacao] = useState();
     const [pageAtual, setPageAtual] = useState(1);
+    const [reAgendar, setReagendar] = useState();
 
+
+    const dadosArmazenados = sessionStorage.getItem('dados');
+    const dadosLogados = JSON.parse(dadosArmazenados);
+    const headers ={
+      headers: {
+      'authorization': `Bearer ${dadosLogados.token}`
+    }
+    }
+    
 
   
     useEffect(() => {
       const fetchData = async () => {
         try {
-          const response = await axios.get('http://172.18.50.128:9091/bemEstar/agenda_psi');
+          const response = await axios.get(util.urlGetAgendamento + dadosLogados.especialidade + '/' + dadosLogados.user,
+          headers);
           setDados(response.data);
-          const token = Asyncstorage.getItem('token')  
+  
         } catch (error) {
           console.log(error);
+          alert('erro ao buscar os dados')
         }
       };
 
@@ -38,26 +47,9 @@ const TelaPsicologa = ({navigation}) => {
       fetchData();
     }, []);
 
-const token = Asyncstorage.getItem('token')
-//console.log(token)
-  
    
 
-    function cancelarAgenda() {
-      alert('cancelar ')
-    }
-    function reagendar(){
-      alert('reagendar')
-}
-
-     //Renderizar tela Psicologa > Pendentes
-function Navegar(tela){
-  console.log(tela)
-  
-      navigation.navigate(tela)
-}
-
-const handleTelaPsicologa =  (event) => {
+const handleTelaMasso =  (event) => {
 
     setnavegacao(event)
     setexibirTela(true)
@@ -74,11 +66,11 @@ const handleTelaDisponibilidade = (event) => {
   setexibirTela(true)
   }
 
-if(exibirTela && navegacao === 'UserPsicologa'){
+if(exibirTela && navegacao === 'UserMasso'){
  // setexibirTela(false)
   return (
   <View>
-    <TelaPsicologa />
+    <TelaMasso />
   </View>)
 }
  if(exibirTela && navegacao === 'Tela Historico'){
@@ -100,174 +92,260 @@ if(exibirTela && navegacao === 'UserPsicologa'){
 
 //filter para os agendamentos recente
 
+
 function filtroDataRecente(itens, pageAtual, limitador){
- // let data = moment().format('DD/MM/YYYY')
-  let result = [];
+  // let data = moment().format('DD/MM/YYYY')
+   let result = [];
+ 
+   itens.sort((a, b) => moment(b.data).diff(moment(a.data)));
+ 
+   let totalPage = Math.ceil(pageAtual * limitador / limitador);
+ 
+   let count = ( pageAtual * limitador) - limitador;
+ 
+   let delimitador = count + limitador
+ 
+ 
+   if (pageAtual <= totalPage){
+     for (let i=count ;i<delimitador;i++){
+       if (itens[i] != null){
+         //result.push(<Agenda key={i+1}/>)
+         result.push(itens[i]);
+ }
+   count++;
+ }
+ 
+ return {
+   resultado: result,
+  totalPages: totalPage
+ };
+ }
+ 
+ 
+ }
+ 
+ 
+ const limitador = 10
+ 
+ 
+ function nextPreviuos(value){
+  // console.log(value)
+   let NovapageAtual = pageAtual + value;
+ 
+   if (NovapageAtual > 0 && NovapageAtual <= Math.ceil(dados.length / limitador)){
+     setPageAtual(NovapageAtual)
+   }
+ }
+ //dados filtrados e ordenados pelo mais recente
+ const {resultado, totalPages}=  filtroDataRecente(dados,pageAtual,limitador);
+ 
+ async function exportToExcel() {
+  try {
+    if (resultado.length === 0) {
+      console.log('Não há dados para exportar para o Excel.');
+      return;
+    }
 
-  itens.sort((a, b) => moment(b.data).diff(moment(a.data)));
-
-  let totalPage = Math.ceil(pageAtual * limitador);
-
-  let count = ( pageAtual * limitador) - limitador;
-
-  let delimitador = count + limitador
-
-  if (pageAtual <= totalPage){
-    for (let i=count ;i<delimitador;i++){
-      if (itens[i] != null){
-        //result.push(<Agenda key={i+1}/>)
-        result.push(itens[i]);
-}
-  count++;
-}
-
-return result;
-}
-
-
-}
-
-
-const limitador = 10
-
-
-function nextPreviuos(value){
- // console.log(value)
-  let NovapageAtual = pageAtual + value;
-
-  if (NovapageAtual > 0 && NovapageAtual <= Math.ceil(dados.length / limitador)){
-    setPageAtual(NovapageAtual)
+    await util.ExportToExcel('pendentes',resultado);
+  } catch (error) {
+    console.log(error);
   }
 }
-//dados filtrados e ordenados pelo mais recente
-const dadosFiltrados = filtroDataRecente(dados,pageAtual,limitador);
+async function cancelarAgenda(event) {
 
-
+  await axios.delete(util.urlDeleteAgendamento + event, headers)
+  .then((response)=>{
+    //console.log(response)
+    alert('Agendamento deletado com sucesso!')
+    util.refrestPage();
+  })
+  .catch(()=>alert("Erro ao deletar agendamento"), util.refrestPage())
+  
+ 
 
   
-    const Card = ({ title, description }) => {
-      const [expanded, setExpanded] = useState(false);
-    
-      const handleCardPress = () => {
-        setExpanded(!expanded);
-      };
-    
-      return (
-        <TouchableOpacity onPress={handleCardPress}>
-            <View style={styles.cardContainer}>
-              <Text style={styles.title}>{title}</Text>
-              {expanded && 
-                <View style={styles.descriptionContainer}>
-                  <View style={styles.infoContainer}>
-                    <Text style={styles.label}>Horário:</Text>
-                    {description.map((desc, index) => (
-                      
-                      <Text style={styles.description} key={index}>{desc}</Text>
-                      
-                    ))}
-                          <View style={{justifyContent:'space-between', flexDirection: 'row'}}>
+}
+function reagendar(event){
+  alert(event)
+  setReagendar(event)
+setexibirTela(true)
 
-                            <TouchableOpacity onPress={cancelarAgenda}
-                            style={{
-                              borderWidth: 1,
-                              borderColor: '#000',
-                              borderRadius: 30,
-                              padding: 10,
-                              alignItems: 'center',
-                              marginRight: 5,
-                               }}>
-                              <Text >
-                              <Feather name="trash-2" size={24} color="black" />
-                              Cancelar 
-                              </Text>
 
-                            </TouchableOpacity>
-                            <TouchableOpacity onPress={reagendar} style={{
-                              borderWidth: 1,
-                              
-                              borderColor: '#000',
-                              borderRadius: 30,
-                              padding: 10,
-                              alignItems: 'center',
-                              
-                              }}>
-                              <Text>  
-                                <FontAwesome name="send-o" size={24} color="black" />
-                                Reagendar
-                              </Text>
-                            </TouchableOpacity>
-                        </View>
-                  </View>
-                </View>
-              }
-            </View>
-      </TouchableOpacity> 
+}
+if(exibirTela){
+  return (
+  <View>
+    <Reagendamento data={reAgendar.data} horario={reAgendar.hora} id={reAgendar.id} id_especialista={reAgendar.id_especialista} servicoId={reAgendar.servicoId}/>
+    </View>)
+}
+  
+const Card = ({ title, description }) => {
+  const [expanded, setExpanded] = useState(false);
 
-      );
-    
-    };
+  const handleCardPress = () => {
+    setExpanded(!expanded);
+  };
+  if(!title && !description){
+    return(
+    <>
+      <ActivityIndicator size={100}  />
+      <Text>Nenhum agendamento pendente</Text>
+    </>);
+  }
 
-    if(dados){
+  return (
+  
+    <TouchableOpacity id='*' onPress={handleCardPress}>
+         <View style={styles.cardContainer}>
+          <Text style={styles.title1}>{title}</Text>
+          {expanded && 
+            <View style={styles.descriptionContainer}>
+              <View style={styles.infoContainer}>
+              
+                <View style={styles.infoAgendas}>
+
+                  <Text style={styles.label}><Text style={{fontStyle: 'normal', fontWeight:'bold'}}>Horario:</Text> {moment(description.hora).format('HH:mm')}</Text>
+                  <Text style={styles.label}><Text style={{fontStyle: 'normal', fontWeight:'bold'}}>Nome:</Text> {description.nome}</Text>
+                  <Text style={styles.label} ><Text style={{fontStyle: 'normal', fontWeight:'bold'}}>Email:</Text> {description.email}</Text>
+                  <Text style={styles.label} ><Text style={{fontStyle: 'normal', fontWeight:'bold'}}>Setor:</Text> {description.setor}</Text>
+                </View> 
+                    
+
+                        <TouchableOpacity id='#1' onPress={() => cancelarAgenda(description.id)}
+                        style={{
+                          borderWidth: 1,
+                          borderColor: '#000',
+                          borderRadius: 30,
+                          padding: 10,
+                          alignItems: 'center',
+                          marginRight: 5,
+                           }}>
+                          <Text style={{ fontFamily: 'Harabara', fontSize: 20}} >
+                          <Feather name="trash-2" size={24} color="black" />
+                          Cancelar 
+                          </Text>
+
+                        </TouchableOpacity>
+                        <TouchableOpacity id='#2' onPress={() => reagendar(description)} style={{
+                          borderWidth: 1,
+                          
+                          borderColor: '#000',
+                          borderRadius: 30,
+                          padding: 10,
+                          alignItems: 'center',
+                          
+                          }}>
+                          <Text style={{ fontFamily: 'Harabara', fontSize: 20}}>  
+                            <FontAwesome name="send-o" size={24} color="black" />
+                            Reagendar
+                          </Text>
+                        </TouchableOpacity>
+                    </View>
+              </View>
+           
+          }
+          </View>
+       
+  </TouchableOpacity> 
+  
+
+  );
+
+};
+
+
+    if(dados.length > 0){
    
     return (
-      <View style={{justifyContent:'center', width:'100%',backgroundColor: 'white'}}>
+      <View style={{justifyContent:'center'}}>
       <View style={[styles.header, {justifyContent: 'center' }]}>
         <View style={{left: '33%'}}>
         <UserIcon/>
 
         </View>
+
+        <LogoMundial/>
      
         <View style={styles.headerBtn}>
-          <TouchableOpacity style={styles.btn} onPress={() =>handleTelaPsicologa("UserPsicologa")}>
-            <Text>Pendentes</Text>
+          <TouchableOpacity style={styles.btn} onPress={() =>handleTelaMasso("UserMasso")}>
+            <Text  style={{fontSize: 22, alignItems: 'center'}}>Pendentes</Text>
           </TouchableOpacity>
           <TouchableOpacity style={styles.btn} onPress={() => handleTelaHistórico("Tela Historico")}>
-            <Text>Histórico</Text>
+            <Text style={{fontSize: 22, alignItems: 'center'}}>Histórico</Text>
           </TouchableOpacity>
           <TouchableOpacity style={styles.btn} onPress={() => handleTelaDisponibilidade("Atendimento Especialista")}>
-            <Text>Disponibilidade</Text>
+            <Text style={{fontSize: 22, alignItems: 'center'}}>Disponibilidade</Text>
           </TouchableOpacity>
           
         </View>
       </View>
 
-      <TouchableOpacity onPress={() => nextPreviuos(1)}><Text>Próxima página</Text></TouchableOpacity>
-          <TouchableOpacity onPress={() => nextPreviuos(-1)}><Text>Página Anteriror</Text></TouchableOpacity>
-          <TouchableOpacity><Text>{pageAtual}</Text></TouchableOpacity>
-      
-    <ScrollView style={styles.container} >
+      <View style={{backgroundColor: '#eeeeec'}}>
+      <Button onPress={exportToExcel} title='exportar' color={'green'} />
+
+          <ScrollView  >
         <View style={styles.grid}>
-        
-          {dadosFiltrados.map((agendamento) => (
+          
+          {resultado.map((agendamento) => (
+
             <View key={agendamento.id} style={styles.card}>
-            <Card   title={moment(agendamento.data).format('DD/MM/YYYY')} description={[moment(agendamento.hora).format('HH:mm'), agendamento.email]}></Card>
+            <Card   title={moment(agendamento.data).format('DD/MM/YYYY')} description={agendamento}></Card>
             
 
             </View>
           ))}
+           <View style={{flexDirection: 'row', justifyContent:'flex-end', alignItems:'flex-end'}}>
 
-          <TouchableOpacity onPress={() => nextPreviuos(1)}><Text>Próxima página</Text></TouchableOpacity>
-          <TouchableOpacity onPress={() => nextPreviuos(-1)}><Text>Página Anteriror</Text></TouchableOpacity>
-          <TouchableOpacity><Text>{pageAtual}</Text></TouchableOpacity>
+            <TouchableOpacity id='menu' style={styles.btnNextPrev} onPress={() => nextPreviuos(1)}>
+              <MaterialCommunityIcons name="page-next" size={24} color="black" /><Text>Próxima</Text></TouchableOpacity>
+            <TouchableOpacity id='menu' style={styles.btnNextPrev} onPress={() => nextPreviuos(-1)}>
+              <MaterialCommunityIcons name="page-previous" size={24} color="black" /><Text>Anteriror</Text></TouchableOpacity>
+
+            </View>
+                    
         </View>
     </ScrollView>
+          </View>
+           
 
     </View>
    
       
     );
-  } else {
+  }  else{
     return (
-      <View style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
-      <Text>Carregando...</Text>
-      <ActivityIndicator size={200} color={'orange'}/>
-     
+      <View style={{justifyContent:'center',backgroundColor: '#eeeeec'}}>
+      <View style={[styles.header, {justifyContent: 'center' }]}>
+        <View style={{left: '33%'}}>
+        <UserIcon/>
+       
+        </View>
+          <LogoMundial/>
+        <View style={styles.headerBtn}>
+          <TouchableOpacity style={styles.btn} onPress={() =>handleTelaPsicologa("UserPsicologa")}>
+            <Text style={{fontSize: 22, alignItems: 'center', fontFamily: 'Harabara'}}>Pendentes</Text>
+          </TouchableOpacity>
+          <TouchableOpacity style={styles.btn} onPress={() => handleTelaHistórico("Tela Historico")}>
+            <Text style={{fontSize: 22, alignItems: 'center', fontFamily: 'Harabara'}}>Histórico</Text>
+          </TouchableOpacity>
+          <TouchableOpacity style={styles.btn} onPress={() => handleTelaDisponibilidade("Atendimento Especialista")}>
+            <Text style={{fontSize: 22, alignItems: 'center', fontFamily: 'Harabara'}}>Disponibilidade</Text>
+          </TouchableOpacity>
+          
+        </View>
       </View>
+      <Text style={{textAlign: 'center', fontSize: 50,alignItems: 'center'}}>Nenhum agendamento pendente....</Text>
+      <TouchableOpacity style={{textAlign: 'center', fontSize: 50,alignItems: 'center'}} onPress={() => window.location.reload()}>
+        <Text style={{textAlign: 'center', fontSize: 25,alignItems: 'center', marginTop: 30}}>Caso tenha algum agendamento, atualize a página clicando aqui!! </Text>
+      </TouchableOpacity>
+     
+     </View>
+     
        )
 
   }
 }
-export default TelaPsicologa;
+export default TelaMasso;
 
 const styles = StyleSheet.create({
 container:
@@ -297,6 +375,35 @@ btn: {
   justifyContent: 'center',
   padding: 15,
   marginBottom: 10,
+  fontSize: 22,
+},
+logo: {
+  //resizeMode:'contain',
+  width: 100,
+  height: 100,
+  position: "absolute",
+  justifyContent: 'flex-start',
+  alignContent: 'flex-start',
+  left: '9%',
+  marginTop: -15
+},
+logo2: {
+//resizeMode:'contain',
+width: 100,
+height: 100,
+position: "absolute",
+justifyContent: 'flex-start',
+alignContent: 'flex-start',
+left: '15%',
+marginTop: -15
+
+},
+btnNextPrev:{
+  flex: 1,
+  justifyContent:"space-evenly",
+  alignItems: 'center',
+  maxWidth: 75,
+  
 },
 grid: {
     

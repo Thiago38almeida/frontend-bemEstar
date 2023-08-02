@@ -1,11 +1,10 @@
 import React, { useEffect, useState } from 'react';
-import { View, Text, Image,StyleSheet, TouchableOpacity,ScrollView } from 'react-native';
-import TelaPsicologa from './psicologa';
-import Telahistorico from './historico';
+import { View, Text,Image, CheckBox,StyleSheet, TouchableOpacity,ScrollView } from 'react-native';
 import UserIcon from '../../components/iconUsers';
 import WeekdayButtons from '../../components/DiasDaSemana'
-import axios from 'axios';
 import ControleAgendas from '../../components/controlAgendas';
+import TelaMasso from './massoterapia';
+import Telahistorico from './historico';
 import LogoMundial from '../../components/logosMundial';
 
 
@@ -42,10 +41,10 @@ const handleTelaDisponibilidade = (event) => {
 
 }
 
-if(exibirTela && navegacao === 'UserPsicologa'){
+if(exibirTela && navegacao === 'UserMasso'){
  // setexibirTela(false)
   return(
-      <View><TelaPsicologa /></View>
+      <View><TelaMasso /></View>
   )
 
   
@@ -67,10 +66,11 @@ if(exibirTela && navegacao === 'UserPsicologa'){
           <UserIcon/>
 
           </View>
+
           <LogoMundial/>
-          
+       
           <View style={styles.headerBtn}>
-            <TouchableOpacity  id='especialidade' style={styles.btn} onPress={() =>handleTelaPsicologa('UserPsicologa')}>
+            <TouchableOpacity  id='especialidade' style={styles.btn} onPress={() =>handleTelaPsicologa('UserMasso')}>
               <Text style={{fontSize: 22, alignItems: 'center', fontFamily: 'Harabara'}}>Pendentes</Text>
             </TouchableOpacity>
             <TouchableOpacity  id='especialidade' style={styles.btn} onPress={() => handleTelaHistórico('Tela Historico')}>

@@ -1,10 +1,7 @@
 import React, {useEffect, useRef, useState} from 'react';
-import { Text, View, StyleSheet,Image, Button,ActivityIndicator,TextInput, TouchableOpacity, FlatList, Alert } from 'react-native';
+import { Text, View, StyleSheet,Image, Button,TextInput, TouchableOpacity, FlatList, Alert, Pressable } from 'react-native';
 import moment from 'moment/moment';
-import {Calendar,LocaleConfig} from 'react-native-calendars';
 import axios from  'axios';
-import { useNavigation } from '@react-navigation/native';
-import { refrestPage } from '../util/util';
 import util from '../util/util';
 
 
@@ -12,14 +9,10 @@ export function Card({ data ,setNull}) {
     const [editedData, setEditedData] = useState([]);
     const [edit, setEdit] = useState(null);
     const [expandedIndex, setExpandedIndex] = useState(-1);
-    const dadosArmazenados = localStorage.getItem('dados');
+
+
+    const dadosArmazenados = sessionStorage.getItem('dados');
     const dadosLogados = JSON.parse(dadosArmazenados);
-
-
-   // console.log(dadosLogados.match())
-      //console.log("Token:",Asyncstorage.getItem('token'))
-      //console.log(`Nome do usuario logado ${JSON.parse(dadosLogados[
-
 
     
 const config ={
@@ -38,32 +31,50 @@ const config ={
   
     const handleEdit = (text, index, field) => {
 
-      console.log(text, index)
-       
-      const newData = [...editedData];
+     const newData = [...editedData];
         
       newData[index][field] = text;
       setEditedData(newData);
-      
-      console.log(editedData)
-    };
+
+      //handleSave();
   
-    const handleSave = async () => {
+    };
+
+  // console.log(editedData)
+  
+    const handleSave = async (inicio, fim, dias, id) => {
+
+   //  console.log(inicio, fim, dias, id)
+
+     
+      const dados = {
+        inicio,
+        fim,
+        dias,
+        id,
+        especialidade: dadosLogados.especialidade,
+        servicoId: dadosLogados.user
+      }
 
       try {
-        await axios.put(util.urlPUThorarioFuncio, editedData,config)
+        await axios.put(util.urlPUThorarioFuncio, dados,config)
+//console.log(dados, editedData)
+        alert('Horário Alterado!')
       } catch (error) {
         console.log(error)
         alert('Ocorreu um erro', error)
-        util.refrestPage()
+        
         
       }
+      
      // console.log(editedData)
     };
  //console.log(moment(horario.dias).locale('pt-br').format('ddd').toLocaleUpperCase()) 
     return (
       <View ref={ref} style={{justifyContent:'center', alignItems:'center'}} >
-        <Text style={styles.cardTitle}>DIAS CADASTRADOS</Text>
+        <Text style={styles.cardTitle}>Horarios de Atendimento</Text>
+       
+          <Pressable onChange={() => util.refrestPage()}><Text>Atualizar dados</Text></Pressable>
             <View style={styles.cardContainer}>
             {editedData.map((horario, index) => (
               
@@ -107,17 +118,21 @@ const config ={
                                 onChangeText={(text) => handleEdit(text, index, 'fim')}
                               />
                               <Button
-                                title='Salvar'
+                                title='cancelar'
                                 color='orange'
                                 onPress={() => setEdit(horario.editMode = false)}
                               />
+
+                            <Button title='Alterar horarios'  onPress={() => handleSave(horario.inicio, horario.fim, horario.dias, horario.id)} color={'orange'}/>
+
                             </>
                           )}
                         </View>
                       )}
+
                     </View>
                     ))}
-
+            
           </View>
       </View>
     );
@@ -140,8 +155,11 @@ const config ={
       marginBottom: 10,
     },
     expandedContent: {
+      paddingTop: 10,
       paddingHorizontal: 16,
       paddingBottom: 8,
+      borderWidth: 1,
+      borderColor: 'orange',
      // flexDirection: 'row',
     },
     cardContainer: {
@@ -152,10 +170,10 @@ const config ={
       marginBottom: 16,
     },
     cardTitle: {
-      fontSize: 18,
-      alignItems: 'center',
-      alignContent: 'center',
-     
+
+fontSize: 22, 
+alignItems: 'center', 
+fontFamily: 'Harabara',     
      // width: 250,
       padding: 10,
       borderRadius: 10,
@@ -165,8 +183,7 @@ const config ={
     //  flexDirection: 'row',
       alignItems: 'center',
       marginBottom: 8,
-      borderWidth: 1,
-      borderColor: 'orange',
+      
 
 
     },
