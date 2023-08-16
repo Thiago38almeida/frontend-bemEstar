@@ -3,7 +3,8 @@ import { Text,Linking, View, StyleSheet,Image, Button,ActivityIndicator, Touchab
 import moment from 'moment/moment';
 import {Calendar,LocaleConfig} from 'react-native-calendars';
 import axios from  'axios';
-import { MaterialIcons,Feather  } from '@expo/vector-icons'; 
+import { MaterialIcons,Feather,Ionicons   } from '@expo/vector-icons'; 
+//import { MaterialIcons,Feather  } from '@expo/vector-icons'; 
 import { FlatList, ScrollView } from 'react-native-web';
 import { NavigationContainer, useNavigation } from '@react-navigation/native';
 import FormsAgendamento from '../../components/FormsAgendamento';
@@ -63,7 +64,7 @@ const AgendamentoPsicologaMatriz =   () => {
     catch (erro){
       console.warn('Não foi possível buscar os dados da API');
       alert('Não foi possível buscar os dados da API');
-    util.refrestPage()
+      navigation.goBack();
     }
     };
   
@@ -199,7 +200,7 @@ setselectedHorario('')
   const width = Dimensions.get('window').width
   //setDimension(width)
 //console.log(width)
-  if (width > 400) {
+  if (width > 800) {
   return (
     <View style={{backgroundColor: '#4B4544', justifyContent: 'center', alignItems: 'center', flex: 1}}>
     <View style={styles.container}>

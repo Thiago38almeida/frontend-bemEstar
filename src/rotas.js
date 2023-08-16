@@ -12,6 +12,7 @@ import AgendamentoMassoNeolog from './screens/massoterapeuta/Neolog';
 import Reagendamentos from './screens/reagendamento';
 import TelaMasso from './screensUsers/massoterapeuta/massoterapia';
 import CancelamentoAgendamentoScreen from './screens/cancelar';
+import AdminPanel from './screens/adm/administrador';
 
 const Drawer = createDrawerNavigator();
 const Stack = createNativeStackNavigator();
@@ -45,6 +46,7 @@ export default function RotasAgendamentos() {
             <Stack.Screen options={{ headerShown: false }} name='Login'  component={Login} />
             <Stack.Screen options={{ headerShown: false }} name="UserPsicologa" component={TelaPsicologa} />
             <Stack.Screen options={{ headerShown: false }} name="UserMasso" component={TelaMasso} />
+            <Stack.Screen options={{ headerShown: false }} name="admin" component={AdminPanel} />
                    
                 
       </Stack.Navigator>

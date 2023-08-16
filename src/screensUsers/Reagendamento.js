@@ -16,6 +16,14 @@ const [name, setName] = useState();
 const [email, setEmail] = useState();
 const [setor, setSetor] = useState();
 
+const queryString = window.location.search;
+
+  // Cria um objeto URLSearchParams a partir da string de consulta
+  const params = new URLSearchParams(queryString);
+  
+  // Obtém os valores dos parâmetros
+  const param1 = params.get('param1');
+
 useEffect(() => {
     setSelectedDate(dataSelecionada);
     setSelectedHorario(horarioSelecionada);
@@ -57,16 +65,20 @@ function voltar() {
   setSelectedDate('');
   setSelectedHorario('');
 }
+function handleSelectChange(event){
+  const selectedValue = event.target.value;
+  setSetor(selectedValue)
+}
 
   return (
-    <View style={styles.container}>
-      <View style={styles.containerGrid}>
+    <View style={{justifyContent: 'center', alignItems: 'center', flex:1, backgroundColor: '#4B4544'}}>
+      <View style={styles.container}>
+        <View style={styles.containerGrid}>
         <View style={styles.containerInfo}>
           <View style={{alignItems: 'flex-start', justifyContent: 'flex-start'}}>
                    
-          <Text style={styles.textDate}><Feather name="map-pin" size={24} color="white"style={{marginRight: 5}} />{servicoId}</Text>
+          <Text style={styles.textDate}><Feather name="map-pin" size={24} color="white"style={{marginRight: 5}} />{servicoId || param1}</Text>
          
-          <Text style={styles.textDateh}> <MaterialIcons name="timer" size={15} color="white" style={{marginRight: 5}}/>1h</Text>
           
           </View>
             <View style={{justifyContent:  'center'}} aria-valuetext='image'>
@@ -106,11 +118,10 @@ function voltar() {
             onChangeText={(text) => setEmail(text)}
             />
             <Text style={styles.inputBtn}>Setor:</Text>
-            <TextInput
-             nativeID='setor'
-            style={styles.input}
-            onChangeText={(text) => setSetor(text)}
-            />
+            <select name='Seleção-setor'style={styles.input} required onChange={(event) => handleSelectChange(event)}>
+                    <option value='ADM' style={{color: 'black'}}>ADM</option>
+                    <option value='Operacional' style={{color: 'black'}}>Operacional</option>
+            </select>
           <View style={styles.button}>
 
             <Button title='agendar' accessibilityLabel='agendar' color={'orange'}  onPress={() => agendar()} />
@@ -124,31 +135,36 @@ function voltar() {
 
         </View>
       </View>
+    </View>
   );
 };
 
 const styles = StyleSheet.create({
-container: {
-        flex: 1,
-        alignItems: 'center',
-        justifyContent: 'center',
-        backgroundColor: '#4B4544',
-        borderRadius: 1,
-        flexDirection: 'column'
-}, 
-containerGrid: {
-    marginTop: 16,
-    flexDirection: "row",
-    justifyContent:'center',
+  container: {
+    flex: 1,
     alignItems: 'center',
-    width:'100%',
-    maxWidth: 700,
-   // minWidth: 500,
-    height: 500,
-    alignSelf: 'center',
-    backgroundColor: 'black',
+    justifyContent: 'center',
+    backgroundColor: '#e77825',
+    width: '60%',
+    borderColor: 'black',
+    borderWidth: 1,
     borderRadius: 30,
-},
+    margin: 30,
+    flexDirection: 'column',
+  }, 
+  containerGrid: {
+    flexDirection: 'row',
+    backgroundColor: '#090707',
+    alignItems: 'center',
+    padding: 10,
+    borderWidth: 1,
+    borderRadius: 30,
+    width: '98%',
+    height: '98%',
+    //maxWidth: 800,
+  
+    
+  },
 textDate: {
   fontSize: 22,
   fontWeight: 'bold',

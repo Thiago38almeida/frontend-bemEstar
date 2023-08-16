@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from 'react';
-import { Text, View, StyleSheet,Image, Button,ActivityIndicator, TouchableOpacity, Pressable, Alert, TextInput } from 'react-native';
+import { Text, View, StyleSheet,Image, Button,ActivityIndicator, TouchableOpacity, Pressable, Alert, TextInput, Dimensions } from 'react-native';
 import moment from 'moment/moment';
 import {Calendar,LocaleConfig} from 'react-native-calendars';
 import axios from  'axios';
@@ -9,6 +9,7 @@ import {  useNavigation } from '@react-navigation/native';
 import Reagendar from '../screensUsers/Reagendamento';
 import util from '../util/util';
 import TelaErro from './telaErro';
+import styleWebMobile from '../style';
 
 
 
@@ -54,8 +55,8 @@ const CancelamentoagendamentosScreen =   () => {
   catch (erro){
     console.warn('Não foi possível buscar os dados');
     alert('Não foi possível buscar os dados');
-   util.refrestPage()
-  }
+
+      }
   
   }; 
  
@@ -79,12 +80,12 @@ const CancelamentoagendamentosScreen =   () => {
      
         const response = await axios.delete(util.urlDelAgendamento + param1)
           console.log(response.data)
-          Alert.alert("", "O agendamento foi cancelado com sucesso!")
+          alert("O agendamento foi cancelado com sucesso!")
 
     }
     catch({message}){
       console.error("Erro ao tentar excluir o agendamento", message )
-      Alert.alert("", `Falha na requisição! ${message}`)
+      alert(`Falha na requisição! ${message}`)
       //util.refrestPage()
       setIsLoading(false)
 
@@ -96,7 +97,79 @@ const CancelamentoagendamentosScreen =   () => {
       };
 
   
-  
+  const dimensions = Dimensions.get('window');
+
+  if(dimensions.width < 400){
+    return (
+      <View style={{flex:1,justifyContent: 'center', alignItems: 'center', alignContent:'center', backgroundColor: '#4B4544'}}>
+    <View style={style.containerM}>
+      <View style={style.containerGridM}>
+      <ScrollView>                           
+                         
+          <View style={style.containerInfoM}>
+            <View style={{alignItems: 'flex-start', justifyContent: 'flex-start'}}>
+              <Image source={require('../../assets/MicrosoftTeams-image (1).png')} style={{width: 250, height:250}}/>
+            <Text style={styles.textDate}>Cancelar Agendamento</Text>
+          
+            
+            </View>
+              <View style={{justifyContent:  'center', width: '100%'}} aria-valuetext='image'>
+                            {isLoading ? (
+                <>
+                  {setAgenda && setAgenda.length > 0 ? (
+                    setAgenda.map((dados, indice1) => {
+                      console.log(dados);
+                      return (
+                        
+                        <View key={indice1} style={ {flex:1, justifyContent:'center', alignItems: 'center', flexDirection:'row', flexWrap:'wrap'}}>
+                          
+                          <TextInput
+                          id='data'
+                          value={moment(dados.data).format('DD/MM/YYYY').toUpperCase()}
+                          editable={false}
+                          style={styles.inputs}
+                          />
+                          <TextInput
+                          id='hora'
+                          value={moment(dados.hora).format("HH:mm").toUpperCase()}
+                          editable={false}
+                          style={styles.inputs}/>
+                          <TextInput
+                          id='especialista'
+                          value={dados.id_especialista.toUpperCase()}
+                          editable={false}
+                          style={styles.inputs}/>
+                          <TextInput
+                          id='servicoId'
+                          value={dados.servicoId.toUpperCase()}
+                          editable={false}
+                          style={styles.inputs}/>
+
+                          <Button onPress={cancelarAgendamento} title='Cancelar' color={'#e77825'} testID='button'  />
+                        </View>
+                      );
+                    })
+                  ) : (
+                   <TelaErro/>
+                  )}
+                </>
+              ) : (
+                <>
+                  <Text>Aguarde......</Text>
+                  <ActivityIndicator size={100} color={'orange'} />
+                </>
+              )}
+
+              
+              </View>
+
+          </View>
+      </ScrollView>
+        </View>
+      </View>
+    </View>
+      )
+  }
 
   return (
   <View style={{flex:1,justifyContent: 'center', alignItems: 'center', alignContent:'center', backgroundColor: '#4B4544'}}>
@@ -168,14 +241,14 @@ const CancelamentoagendamentosScreen =   () => {
   
   )};
   
- 
+const style = styleWebMobile; 
 const styles = StyleSheet.create({
  container: {
   flex: 1,
   alignItems: 'center',
   justifyContent: 'center',
   backgroundColor: '#e77825',
-  width: '65%',
+  width: '60%',
   height: '40%',
   borderColor: 'black',
   borderWidth: 1,
@@ -190,7 +263,7 @@ containerGrid: {
   backgroundColor: '#090707',
   borderWidth: 1,
   borderRadius: 30,
-  maxWidth:'98%',
+  maxWidth:'99%',
   height: '98%',
   //width: '100%'
 

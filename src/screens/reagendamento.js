@@ -1,14 +1,15 @@
 import React, {useEffect, useState} from 'react';
-import { Text, View, StyleSheet,Image, Button,ActivityIndicator, TouchableOpacity, Pressable, Alert } from 'react-native';
+import { Text, View, StyleSheet,Image, Button,ActivityIndicator, TouchableOpacity, ScrollView, Alert, Dimensions } from 'react-native';
 import moment from 'moment/moment';
 import {Calendar,LocaleConfig} from 'react-native-calendars';
 import axios from  'axios';
-import { MaterialIcons,Feather  } from '@expo/vector-icons'; 
-import { ScrollView } from 'react-native-web';
+import { MaterialIcons,Feather,Ionicons   } from '@expo/vector-icons'; 
+//import { ScrollView } from 'react-native-web';
 import {  useNavigation } from '@react-navigation/native';
 import Reagendar from '../screensUsers/Reagendamento';
 import util from '../util/util';
 import TelaErro from './telaErro';
+import styleWebMobile from '../style';
 
 
 
@@ -27,6 +28,9 @@ const Reagendamentos =   ({data, horario , id, id_especialista, servicoId}) => {
   const [dados, setDatas] = useState([]);
   const [horaa, sethoraa] = useState([]);
   const [navegar, setNavegar] = useState();
+  const [showCalendar, setshowCalendar] = useState(true);
+  const [showHorarios, setshowHorarios] = useState(false);
+ 
 
   const navigation = useNavigation();
   const queryString = window.location.search;
@@ -75,6 +79,7 @@ const Reagendamentos =   ({data, horario , id, id_especialista, servicoId}) => {
 
     setMarkedDates(marked);
     setIsLoading(false);
+    setshowCalendar(true);
     //setDados(true)
   }
   else {
@@ -88,7 +93,7 @@ const Reagendamentos =   ({data, horario , id, id_especialista, servicoId}) => {
   catch (erro){
     console.warn('Não foi possível buscar os dados da API');
     alert('Não foi possível buscar os dados da API');
-   refrestPage()
+   
   }
   
   }; 
@@ -145,6 +150,8 @@ const Reagendamentos =   ({data, horario , id, id_especialista, servicoId}) => {
     const horariosDisponiveis =  horarioSelecionado.horariosLivres;
    
     sethoraa(horariosDisponiveis)
+    setshowHorarios(true)
+    setshowCalendar(false)
      
 }
 
@@ -221,6 +228,107 @@ setselectedHorario('')
   if(navegar) {    
     return <Reagendar  dataSelecionada= {selectedDate} horarioSelecionada= {selectedHorario} id={param5} id_especialista={id_especialista} servicoId={servicoId}/>
   
+  }
+
+  const dimensions = Dimensions.get('window').width;
+
+
+  if(dimensions < 400) {
+    return (
+      <View style={{flex:1,justifyContent: 'center', alignItems: 'center', alignContent:'center', backgroundColor: '#4B4544'}}>
+        <View style={style.containerM}>
+          <View style={style.containerGridM}>
+            <View style={style.containerInfoM}>
+             <Text style={style.textDate}>Data agendada: {param2}</Text>
+              <Text style={style.textDate}>Hora agendada: {param3}</Text>
+              
+              <Text style={style.textDate}><Feather name="map-pin" size={24} color="white"style={{marginRight: 5}} />{param1}</Text>  
+            </View>
+           {/* Calendário!! */}
+            
+            {
+              showCalendar? 
+                <View style={style.Calendar}>
+                  <CompCalendario/>
+                </View>
+                        : null
+            }
+             {
+                showHorarios?
+                  <View style={styles.containerGridsM}>
+                    <View style={{alignContent: 'flex-start', alignItems: 'flex-start'}}>
+                        
+                        <TouchableOpacity  onPress={() => {setshowHorarios(false), setshowCalendar(true), setSelectedDate('')}}><Ionicons name="ios-arrow-back" size={24} color="white"  /></TouchableOpacity>
+                        <Text style={{fontSize: 14, color: 'white', marginBottom:15, alignItems:'center', marginRight:10}}>Horários disponíveis</Text>
+
+                    </View>
+                    
+                          <ScrollView contentContainerStyle={styles.contentContainer}>
+                          <View style={styles.containerHorariosDisponiveis}>
+                        
+                            { hora ? horaa.map((horario, indice1) => {
+                              return(
+                              
+                              horario.map((horarios, indice2) => {
+                                         
+                                if(selectedHorario === horarios){
+                                  if(selectedDate === dataHoje && horarios < dataHoje){
+                                     alert('HORARIO INDISPONIVEL');
+                                  } else{                             
+                                     
+                                  
+                                return(
+                             
+                                <View key={`${indice1}-${indice2}`} style={styles.horarioContainer}>
+                                    <View style={{padding: 10}}>
+                                    <TouchableOpacity 
+                                    onPress={(event) => handleHorarioSelecionado(event, horarios)}
+                                    style={style.btnHorarioM}
+                                  >
+                                    <Text style={{color: 'white', fontSize: 14, padding:10}}>{horarios}</Text>
+                                   
+                                  </TouchableOpacity>
+                                    
+                                    </View>
+                                     <Button title='avancar' color={'#e77825'} onPress={() => agendar('formsAgendamento')}/>
+    
+                                </View>
+                               
+                              );}}else{
+                              
+                                return(
+                                  
+                                  <View key={`${indice1}-${indice2}`} style={styles.horarioContainer}>
+                                      <View>
+    
+                                      <TouchableOpacity
+                                      onPress={(event) => handleHorarioSelecionado(event, horarios)}
+                                      style={style.btnHorarioM}
+                                    >
+                                      <Text style={{color: 'white', fontSize: 14, padding:10}}>{horarios}</Text>
+                                    </TouchableOpacity>
+                                      </View>
+                                  </View>
+                                );
+                              }
+                              
+                            
+                            })); 
+                          })
+                           : 
+                           <ActivityIndicator size={30} color={'blue'}/> 
+                          }
+                          </View>
+                          </ScrollView> 
+                  </View>
+                      : null
+              }
+                         
+          </View>
+        </View>
+      </View>     
+      
+      )
   }
 
   return (
@@ -319,15 +427,15 @@ setselectedHorario('')
   
   )};
   
- 
+ const style = styleWebMobile;
 const styles = StyleSheet.create({
   container: {
     flex: 1,
     alignItems: 'center',
     justifyContent: 'center',
     backgroundColor: '#e77825',
-    width: '88%',
-    height: '60%',
+    width: '60%',
+    height: '40%',
     borderColor: 'black',
     borderWidth: 1,
     borderRadius: 30,

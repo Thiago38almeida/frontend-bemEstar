@@ -75,11 +75,11 @@ useEffect(() => {
    
   }
   catch(err){
-    console.error('Erro ao tentar realizar o cadastro')
+    console.error(err)
    
-    alert("Não foi possível fazer a reserva")
+    alert(err.response.data.erro.toString() || 'erro ao agendar!')
     setTimeout(() => {
-      navigation.goBack();
+    navigation.goBack();
       setSelectedDate('')
       setSelectedHorario('')
       setName('')
@@ -87,7 +87,7 @@ useEffect(() => {
       setEmail('')
       }, 2000);
 
-      throw err
+    
   
   }
 }

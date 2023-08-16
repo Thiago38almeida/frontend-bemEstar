@@ -68,7 +68,7 @@ const AgendamentoMassoMatriz =   () => {
     catch (erro){
       console.warn('Não foi possível buscar os dados da API');
       alert('Não foi possível buscar os dados da API');
-    util.refrestPage()
+    navigation.goBack();
     }
     };
   
@@ -204,7 +204,7 @@ setselectedHorario('')
   const width = Dimensions.get('window').width
   //setDimension(width)
 //console.log(width)
-  if (width > 400) {
+  if (width > 800) {
   return (
     <View style={{backgroundColor: '#4B4544', justifyContent: 'center', alignItems: 'center', flex: 1}}>
     <View style={styles.container}>

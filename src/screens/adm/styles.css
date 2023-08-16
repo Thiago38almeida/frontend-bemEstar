@@ -1,0 +1,18 @@
+.nav-center {
+    
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    align-content: center;
+}
+.table{
+    width: 100%;
+    border-collapse: collapse!important;
+
+}
+.body{
+    background:#f2f5fa ;
+    justify-content: center;
+    align-items: center;
+    align-content: center;
+}

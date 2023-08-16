@@ -166,7 +166,7 @@ containerM: {
     alignItems: 'center',
     justifyContent: 'center',
     backgroundColor: '#e77825',
-    width: '99%',
+    width: '90%',
     borderColor: 'black',
     borderWidth: 1,
     borderRadius: 30,
@@ -180,9 +180,9 @@ containerM: {
     padding: 10,
     borderWidth: 1,
     borderRadius: 30,
-   //S width: '100%',
+    width: '95%',
     height: '98%',
-    maxWidth: '98%',
+   // Width: '98%',
   
     
   },

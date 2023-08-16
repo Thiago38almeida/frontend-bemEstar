@@ -63,8 +63,8 @@ const HomeScreen = () => {
         style={styles.card}
         onPress={() => handleCardPress('massoterapiaGLP')}
       >
-        <Text style={styles.cardTitle}>Massoterapeuta Neolog</Text>
-        <Text style={styles.cardDescription}>Agende uma consulta com a Massoterapeuta no GLP.</Text>
+        <Text style={styles.cardTitle}>Massoterapia Neolog</Text>
+        <Text style={styles.cardDescription}>Agende uma consulta com a Massoterapia no GLP.</Text>
 
       </TouchableOpacity>
 
@@ -72,8 +72,8 @@ const HomeScreen = () => {
         style={styles.card}
         onPress={() => handleCardPress('massoterapiaMatriz')}
       >
-        <Text style={styles.cardTitle}>Massoterapeuta Matriz</Text>
-        <Text style={styles.cardDescription}>Agende uma consulta com a Massoterapeuta na Matriz.</Text>
+        <Text style={styles.cardTitle}>Massoterapia Matriz</Text>
+        <Text style={styles.cardDescription}>Agende uma consulta com a Massoterapia na Matriz.</Text>
 
       </TouchableOpacity>
     

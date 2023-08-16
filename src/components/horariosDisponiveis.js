@@ -30,7 +30,7 @@ const HorariosDisponiveis = ({selectedHour}) => {
       setSelectedHours([...selectedHours, hour]);
     }
   };
-  console.log(selectedHours)
+ 
 
 
   return (

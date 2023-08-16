@@ -1,6 +1,6 @@
 //export function refrestPage() { window.location.reload() }
 
-const api = process.env.REACT_APP_API_URL || 'https://calendario-bem-estar-b4iu.vercel.app';
+const api = process.env.REACT_APP_API_URL || 'http://localhost:9091/bemEstar';
 var XLSX = require('xlsx')
 const moment = require('moment')
 
@@ -19,6 +19,7 @@ module.exports = {
    urlPosthorarioServico:  api + '/criarHorarioServico',
    urllogin:  api + '/login',
    urllogout:  api + '/logout',
+   urlAdmin:  api + '/admin/users',
 
 
    refrestPage:  () => { window.location.reload() },
