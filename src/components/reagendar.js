@@ -187,12 +187,18 @@ setselectedHorario('')
     //navegação para telas
   
   if(navegar) {    
-    return <Reagendar  dataSelecionada= {selectedDate} horarioSelecionada= {selectedHorario} id={id} id_especialista={id_especialista} servicoId={servicoId}/>
-  
+    return (
+      <View>
+    <Reagendar  dataSelecionada= {selectedDate} horarioSelecionada= {selectedHorario} id={id} id_especialista={id_especialista} servicoId={servicoId}/>
+
+      </View>
+  )
   }
 
   return (
-    <View style={{backgroundColor: '#4B4544', justifyContent: 'center', alignItems: 'center', flex: 1}}>
+  <View style={{backgroundColor: 'red', flex: 1, borderColor: 'black', borderWidth:1}}>
+
+  
     <View style={styles.container}>
       <View style={styles.containerGrid}>
         <View style={styles.containerInfo}>
@@ -290,8 +296,7 @@ setselectedHorario('')
   )};
   
  
-const styles = styleWebMobile;
-/*StyleSheet.create({
+const styles = StyleSheet.create({
   container: {
     flex: 1,
     alignItems: 'center',
@@ -311,9 +316,8 @@ const styles = styleWebMobile;
     padding: 10,
     borderWidth: 1,
     borderRadius: 30,
-    width: '100%',
-    height: 550,
-    maxWidth: 800,
+    width: '98%',
+    height: '98%',
   
     
   },
@@ -452,5 +456,5 @@ datas: {
   alignItems: 'center',
   },
   });
-*/
+
 export default Reagendamento;

@@ -110,6 +110,12 @@ if(exibirTela && navegacao === 'UserPsicologa'){
       <AtendimentoEspecialista/>
       </View>
       )
+}else if(exibirTela && navegacao === 'reagendar'){
+  return(
+       <View>
+        <Reagendamento data={reAgendar.data} horario={reAgendar.hora} id={reAgendar.id} id_especialista={reAgendar.id_especialista} servicoId={reAgendar.servicoId}/>
+      </View>
+      )
 }
 
 
@@ -190,18 +196,13 @@ async function cancelarAgenda(event) {
 
   
 }
-function reagendar(event){
-  alert(event)
+function reagendar(event, tela){
+  alert('Tem certeza que deseja reagendar?')
   setReagendar(event)
-setexibirTela(true)
-
-
+  setnavegacao(tela)
+  setexibirTela(true)
 }
-if(exibirTela){
-  return (<View>
-    <Reagendamento data={reAgendar.data} horario={reAgendar.hora} id={reAgendar.id} id_especialista={reAgendar.id_especialista} servicoId={reAgendar.servicoId}/>
-    </View>)
-}
+
   
     const Card = ({ title, description }) => {
       const [expanded, setExpanded] = useState(false);
@@ -231,6 +232,7 @@ if(exibirTela){
                       <Text style={styles.label}><Text style={{fontStyle: 'normal', fontWeight:'bold'}}>Horario:</Text> {moment(description.hora).format('HH:mm')}</Text>
                       <Text style={styles.label}><Text style={{fontStyle: 'normal', fontWeight:'bold'}}>Nome:</Text> {description.nome}</Text>
                       <Text style={styles.label} ><Text style={{fontStyle: 'normal', fontWeight:'bold'}}>Email:</Text> {description.email}</Text>
+                      <Text style={styles.label} ><Text style={{fontStyle: 'normal', fontWeight:'bold'}}>Telefone:</Text> {description.telefone}</Text>
                       <Text style={styles.label} ><Text style={{fontStyle: 'normal', fontWeight:'bold'}}>Setor:</Text> {description.setor}</Text>
                     </View> 
                         
@@ -250,7 +252,7 @@ if(exibirTela){
                               </Text>
 
                             </TouchableOpacity>
-                            <TouchableOpacity id='#2' onPress={() => reagendar(description)} style={{
+                            <TouchableOpacity id='#2' onPress={() => reagendar(description,'reagendar')} style={{
                               borderWidth: 1,
                               
                               borderColor: '#000',

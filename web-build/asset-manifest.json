@@ -1,0 +1,31 @@
+{
+  "files": {
+    "main.css": "/static/css/main.ffcce74b.css",
+    "main.js": "/static/js/main.a8554d37.js",
+    "static/js/195.a6c9aec9.js": "/static/js/195.a6c9aec9.js",
+    "static/media/MaterialCommunityIcons.ttf": "/static/media/MaterialCommunityIcons.5d42b4e60858731e7b65.ttf",
+    "static/media/Ionicons.ttf": "/static/media/Ionicons.3517aeaa34b2f8cd8eef.ttf",
+    "static/media/MaterialIcons.ttf": "/static/media/MaterialIcons.120b4c7bbd155bd0a04d.ttf",
+    "static/media/FontAwesome5_Solid.ttf": "/static/media/FontAwesome5_Solid.07c3313b24f7b1ca85ee.ttf",
+    "static/media/FontAwesome.ttf": "/static/media/FontAwesome.1e59d2330b4c6deb84b3.ttf",
+    "static/media/FontAwesome5_Brands.ttf": "/static/media/FontAwesome5_Brands.9e138496e8f1719c6ebf.ttf",
+    "static/media/logo_mundial_cores.png": "/static/media/logo_mundial_cores.5642dc3ac6526dafed0d.png",
+    "static/media/Feather.ttf": "/static/media/Feather.0f5d9cede2e831f3fc80.ttf",
+    "static/media/MicrosoftTeams-image (1).png": "/static/media/MicrosoftTeams-image (1).f2d633ba05b921cd4d36.png",
+    "static/media/FontAwesome5_Regular.ttf": "/static/media/FontAwesome5_Regular.1017bce89c72f95bcf8e.ttf",
+    "favicon.ico": "/favicon.ico",
+    "index.html": "/index.html",
+    "favicon-32.png": "/favicon-32.png",
+    "favicon-16.png": "/favicon-16.png",
+    "manifest.json": "/manifest.json",
+    "serve.json": "/serve.json",
+    "main.ffcce74b.css.map": "/static/css/main.ffcce74b.css.map",
+    "main.a8554d37.js.map": "/static/js/main.a8554d37.js.map",
+    "195.a6c9aec9.js.map": "/static/js/195.a6c9aec9.js.map"
+  },
+  "entrypoints": [
+    "static/js/195.a6c9aec9.js",
+    "static/css/main.ffcce74b.css",
+    "static/js/main.a8554d37.js"
+  ]
+}

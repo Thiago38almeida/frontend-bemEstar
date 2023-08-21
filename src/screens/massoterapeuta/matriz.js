@@ -47,7 +47,7 @@ const AgendamentoMassoMatriz =   () => {
       };
   try{
       const response = await axios.post(util.urlHorariosDisponiveis, dados);
-      const diasSemanaDisponiveis = response.data.agenda || [];
+      const diasSemanaDisponiveis = response.data.agenda;
      
       if(diasSemanaDisponiveis.length <= 0){
         alert('Sem horarios disponiveis!!');

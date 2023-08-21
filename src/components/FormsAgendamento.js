@@ -19,6 +19,7 @@ const [selectedDate, setSelectedDate] = useState();
 const [selectedHorario, setSelectedHorario] = useState();
 const [name, setName] = useState('');
 const [email, setEmail] = useState('');
+const [fone, setTelefone] = useState('');
 const [setor, setSetor] = useState('ADM');
 
 useEffect(() => {
@@ -29,12 +30,28 @@ useEffect(() => {
   const dataCombinada = moment(selectedDate).format('YYYY-MM-DD') + ' ' + selectedHorario;
   const dataFormatada = moment(dataCombinada, 'YYYY-MM-DD HH:mm').format('YYYY-MM-DD HH:mm');
 
-//console.log(setor)
+  function Validation(tel){
+
+    const telLimpo = tel.replace(/\D/g, '');
+    if(!/^\d{11}/.test(telLimpo)){
+        console.log('invalidado', telLimpo)
+        }
+        else{
+          console.log('validado', telLimpo)
+          setTelefone(telLimpo)
+        }
+  }
+
+  function handleTelefone(tex){
+   // setTelefone(tex)
+    Validation(tex)
+  }
 
  async function agendar() {
     const dados ={
         "data": selectedDate,
         "email":email,
+        "telefone": fone,
         "nome": name,
         "hora": dataFormatada,
         "setor": setor,
@@ -44,7 +61,7 @@ useEffect(() => {
  if(
   name === '' || email ===''||
   dataFormatada === '' ||
-  setor === '' ||
+  setor === '' || fone === '' ||
   id_especialista === '' ||
   servicoId === ''
  )
@@ -53,6 +70,7 @@ useEffect(() => {
    setName('')
    setSetor('')
    setEmail('')
+   setTelefone('')
    util.refrestPage();
  }
  else{
@@ -70,6 +88,8 @@ useEffect(() => {
       setName('')
       setSetor('')
       setEmail('')
+   setTelefone('')
+
       }, 2000);
 
    
@@ -85,6 +105,8 @@ useEffect(() => {
       setName('')
       setSetor('')
       setEmail('')
+   setTelefone('')
+
       }, 2000);
 
     
@@ -110,7 +132,7 @@ function handleSelectChange(event){
 const width = Dimensions.get('window').width
 //setDimension(width)
 //console.log(width)
-if (width < 400) {
+if (width < 800) {
 
   return (
   <View style={{justifyContent: 'center', alignItems: 'center'}}>
@@ -157,9 +179,18 @@ if (width < 400) {
             <Text style={styles.inputBtnM}>E-mail:</Text>
             <TextInput
              nativeID='email'
+             //maxLength={14}
             style={styles.input}
             onChangeText={(text) => setEmail(text)}
             />
+
+            <Text style={styles.inputBtnM}>Telefone:</Text>
+            <TextInput
+             nativeID='telefone'
+            style={styles.input}
+            onChangeText={(text) => handleTelefone(text)}
+            />
+
             <Text style={styles.inputBtnM}>Setor:</Text>
             <select name='Seleção-setor'style={styles.input} required onChange={(event) => handleSelectChange(event)}>
                     <option value='ADM' style={{color: 'black'}}>ADM</option>
@@ -228,6 +259,12 @@ if (width < 400) {
                   style={styles.input}
                   onChangeText={(text) => setEmail(text)}
                   />
+                  <Text style={styles.inputBtnM}>Telefone:</Text>
+                    <TextInput
+                    nativeID='telefone'
+                    style={styles.input}
+                    onChangeText={(text) => handleTelefone(text)}
+                    />
                   <Text style={styles.inputBtnM}>Setor:</Text>
                   <select name='Seleção-setor'style={styles.input} required onChange={(event) => handleSelectChange(event)}>
                     <option value='ADM' style={{color: 'black'}}>ADM</option>

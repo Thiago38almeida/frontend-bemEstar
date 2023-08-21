@@ -15,6 +15,7 @@ const [selectedHorario, setSelectedHorario] = useState();
 const [name, setName] = useState();
 const [email, setEmail] = useState();
 const [setor, setSetor] = useState();
+const [telefone, setTelefone] = useState();
 
 const queryString = window.location.search;
 
@@ -41,15 +42,16 @@ useEffect(() => {
         "email":email,
         "nome": name,
         "hora": dataFormatada,
-       // "setor": setor,
+        "setor": setor,
+        "telefone": telefone,
         "id_especialista":id_especialista,
         "servicoId": servicoId
  }
    try{
    const response = await axios.put(util.urlReagendamento + id, dados)
-    console.log(response)
+    //console.log(response)
    
-  //  alert(`Você está agendando para ${name}, dia ${selectedDate}. Horário: ${selectedHorario} no email: ${email}`)
+  alert(`Você está agendando para ${name}, dia ${selectedDate}. Horário: ${selectedHorario} no email: ${email}`)
    
   }
   catch(err){
@@ -58,6 +60,22 @@ useEffect(() => {
     //alert("Não foi possível fazer a reserva")
   
   }
+}
+function Validation(tel){
+
+  const telLimpo = tel.replace(/\D/g, '');
+  if(!/^\d{11}/.test(telLimpo)){
+      console.log('invalidado', telLimpo)
+      }
+      else{
+        console.log('validado', telLimpo)
+        setTelefone(telLimpo)
+      }
+}
+
+function handleTelefone(tex){
+ // setTelefone(tex)
+  Validation(tex)
 }
 
 function voltar() {
@@ -116,6 +134,12 @@ function handleSelectChange(event){
              nativeID='email'
             style={styles.input}
             onChangeText={(text) => setEmail(text)}
+            />
+            <Text style={styles.inputBtn}>Telefone:</Text>
+            <TextInput
+             nativeID='telefone'
+            style={styles.input}
+            onChangeText={(text) => handleTelefone(text)}
             />
             <Text style={styles.inputBtn}>Setor:</Text>
             <select name='Seleção-setor'style={styles.input} required onChange={(event) => handleSelectChange(event)}>

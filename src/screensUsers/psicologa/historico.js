@@ -190,6 +190,7 @@ if(exibirTela && navegacao === 'UserPsicologa'){
                       <Text style={styles.label}><Text style={{fontStyle: 'normal', fontWeight:'bold'}}>Horario:</Text> {moment(description.hora).format('HH:mm')}</Text>
                       <Text style={styles.label}><Text style={{fontStyle: 'normal', fontWeight:'bold'}}>Nome:</Text> {description.nome}</Text>
                       <Text style={styles.label} ><Text style={{fontStyle: 'normal', fontWeight:'bold'}}>Email:</Text> {description.email}</Text>
+                      <Text style={styles.label} ><Text style={{fontStyle: 'normal', fontWeight:'bold'}}>Telefone:</Text> {description.telefone}</Text>                      
                       <Text style={styles.label} ><Text style={{fontStyle: 'normal', fontWeight:'bold'}}>Setor:</Text> {description.setor}</Text>
                     </View> 
                   </View>
