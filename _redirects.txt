@@ -1,0 +1,9 @@
+# Redirecionamento para lidar com o roteamento no lado do cliente
+/*    /index.html   200
+
+# Redirecionamento para rotas específicas
+/psicologaGLP/*  /bemestar/index.html  200
+/psicologaMatriz/*  /bemestar/index.html  200
+/massoterapiaGLP/*  /bemestar/index.html  200
+/massoterapiaMatriz/*  /bemestar/index.html  200
+/Login/*  /bemestar/index.html  200
