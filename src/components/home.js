@@ -1,23 +1,25 @@
 
 import { FontAwesome5 } from '@expo/vector-icons';
-import { Router, useRoute, useNavigation } from '@react-navigation/native';
+import { Router, useRoute, useNavigation, Link } from '@react-navigation/native';
 
 import { StyleSheet, Text, TouchableOpacity, View, Image, ScrollView, Pressable } from 'react-native';
+import { useNavigate } from 'react-router-dom';
 
 const HomeScreen = () => {
-  const navigation = useNavigation();
+  const navigation = useNavigate();
 
   const handleCardPress = (screenName) => {
-    navigation.navigate(screenName);
+   
+    navigation(screenName);
   };
 
   return (
-    <View style={{backgroundColor: '#eeeeec'}}>
+    <View style={{backgroundColor: '#eeeeec',  flex:1}}>
    
     
       <View style={styles.header}>
         <View style={styles.login}>
-          <Pressable  onPress={() => navigation.navigate('Login')}>
+          <Pressable  onPress={() => navigation('Login')}>
           <FontAwesome5 name="user" size={40}/> 
           <Text style={{ fontFamily: 'Harabara'}}>Entrar</Text>        
 

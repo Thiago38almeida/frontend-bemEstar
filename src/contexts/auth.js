@@ -1,22 +1,22 @@
 import React, { createContext, useEffect, useState } from "react";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import axios from "axios";
-import { useNavigation, useRoute } from "@react-navigation/native";
 import util from "../util/util";
+import { useNavigate } from "react-router-dom";
 
-export const AuthContext = createContext({});
+ export const AuthContext = createContext({});
 
 function AuthProvider({ children }) {
      const refreshPage = () => {
     window.location.reload();
   };
 
-  const navigation = useNavigation();
+ // const navigation = useNavigate();
 
 
  
 
-  async function SignIn(email, senha) {
+    async function SignIn({email, senha}) {
     try {
       const data = { email, senha };
    
@@ -31,14 +31,9 @@ function AuthProvider({ children }) {
         if (response.data.status === '200') {
             //console.log(response.data.especialidade)
          const tela = response.data.telasRenderizada
-    console.log(tela)
+   // console.log(tela)
         
-          navigation.reset({
-            index: 0,
-            routes: [{ name: tela }],
-
-           
-          });
+         navigation(tela)
         }
   
       }

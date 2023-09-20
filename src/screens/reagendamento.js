@@ -32,7 +32,7 @@ const Reagendamentos =   ({data, horario , id, id_especialista, servicoId}) => {
   const [showHorarios, setshowHorarios] = useState(false);
  
 
-  const navigation = useNavigation();
+ // const navigation = useNavigation();
   const queryString = window.location.search;
 
   // Cria um objeto URLSearchParams a partir da string de consulta

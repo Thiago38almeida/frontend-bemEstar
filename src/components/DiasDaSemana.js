@@ -175,7 +175,7 @@ console.log(hour)
     <View style={{flexDirection:'column'}}>
       <View>
       <View style={{ flexDirection: 'row' }}>
-        {availableHours.slice(1, 5).map((hour) => (
+        {availableHours.slice(0, 6).map((hour) => (
           <TouchableOpacity
             key={hour}
             id='especialidade3'

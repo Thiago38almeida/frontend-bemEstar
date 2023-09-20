@@ -1,5 +1,8 @@
 const { StyleSheet } = require("react-native");
 
+const styleWebMobileUsers = StyleSheet.create({
+  
+})
 
 const styleWebMobile = StyleSheet.create({
     container: {
@@ -257,4 +260,5 @@ button: {
 
 
 module.exports = styleWebMobile;
+//module.exports = styleWebMobileUsers;
   

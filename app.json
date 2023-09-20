@@ -1,13 +1,14 @@
 {
   "expo": {
-    "name": "bemEstarDev",
-    "slug": "bemEstarDev",
+    "name": "Bem Estar",
+    "slug": "Bem Estar",
+    "title": "Bem Estar",
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "./assets/icon.png",
+    "icon": "./assets/logo_mundial_cores.png",
     "userInterfaceStyle": "light",
     "splash": {
-      "image": "./assets/splash.png",
+      "image": "./assets/logo_mundial_cores.png",
       "resizeMode": "contain",
       "backgroundColor": "#ffffff"
     },
@@ -19,7 +20,7 @@
     },
     "android": {
       "adaptiveIcon": {
-        "foregroundImage": "./assets/adaptive-icon.png",
+        "foregroundImage": "./assets/logo_mundial_cores.png",
         "backgroundColor": "#ffffff"
       }
     },

@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { View, Text, Image,StyleSheet, TouchableOpacity,ScrollView } from 'react-native';
+import { View, Text, Image, StyleSheet, TouchableOpacity, ScrollView } from 'react-native';
 import TelaPsicologa from './psicologa';
 import Telahistorico from './historico';
 import UserIcon from '../../components/iconUsers';
@@ -11,7 +11,7 @@ import LogoMundial from '../../components/logosMundial';
 
 
 
-const AtendimentoEspecialista = ({navigation}) => {
+const AtendimentoEspecialista = ({ navigation }) => {
   const [diasSelecionados, setDiasSelecionados] = useState([]);
   const [horariosDisponiveis, setHorariosDisponiveis] = useState([]);
   const [exibirTela, setexibirTela] = useState(false);
@@ -19,13 +19,13 @@ const AtendimentoEspecialista = ({navigation}) => {
   const [dados, setDados] = useState();
 
 
-  const handleTelaPsicologa =  (event) => {
+  const handleTelaPsicologa = (event) => {
     //console.log(event)
     setnavegacao(event)
 
-   setexibirTela(true)
-  
-  
+    setexibirTela(true)
+
+
   }
   const handleTelaHistórico = (event) => {
     //console.log(event)
@@ -33,73 +33,73 @@ const AtendimentoEspecialista = ({navigation}) => {
 
     setexibirTela(true)
 
-}
-const handleTelaDisponibilidade = (event) => {
-  //console.log(event)
-  setnavegacao(event)
+  }
+  const handleTelaDisponibilidade = (event) => {
+    //console.log(event)
+    setnavegacao(event)
 
-  setexibirTela(true)
+    setexibirTela(true)
 
-}
+  }
 
-if(exibirTela && navegacao === 'UserPsicologa'){
- // setexibirTela(false)
-  return(
+  if (exibirTela && navegacao === 'UserPsicologa') {
+    // setexibirTela(false)
+    return (
       <View><TelaPsicologa /></View>
-  )
+    )
 
-  
-}else if(exibirTela && navegacao === 'Tela Historico'){
- // setexibirTela(false)
-  return(
-    <View><Telahistorico/></View>
-  )
-}else if(exibirTela && navegacao === 'Atendimento Especialista'){
-  return(
-       <View><AtendimentoEspecialista/></View>
-      )
-}
+
+  } else if (exibirTela && navegacao === 'Tela Historico') {
+    // setexibirTela(false)
+    return (
+      <View><Telahistorico /></View>
+    )
+  } else if (exibirTela && navegacao === 'Atendimento Especialista') {
+    return (
+      <View><AtendimentoEspecialista /></View>
+    )
+  }
 
   return (
-    <View style={{justifyContent:'center'}}>
-        <View style={[styles.header, {justifyContent: 'center' }]}>
-          <View style={{left: '33%'}}>
-          <UserIcon/>
+    <View style={{ justifyContent: 'center' }}>
+      <View style={[styles.header, { justifyContent: 'center' }]}>
+        <View style={{ left: '33%' }}>
+          <UserIcon />
 
-          </View>
-          <LogoMundial/>
-          
-          <View style={styles.headerBtn}>
-            <TouchableOpacity  id='especialidade' style={styles.btn} onPress={() =>handleTelaPsicologa('UserPsicologa')}>
-              <Text style={{fontSize: 22, alignItems: 'center', fontFamily: 'Harabara'}}>Pendentes</Text>
-            </TouchableOpacity>
-            <TouchableOpacity  id='especialidade' style={styles.btn} onPress={() => handleTelaHistórico('Tela Historico')}>
-              <Text style={{fontSize: 22, alignItems: 'center', fontFamily: 'Harabara'}}>Histórico</Text>
-            </TouchableOpacity>
-            <TouchableOpacity  id='especialidade' style={styles.btn} onPress={() => handleTelaDisponibilidade('Atendimento Especialista')}>
-              <Text style={{fontSize: 22, alignItems: 'center', fontFamily: 'Harabara'}}>Disponibilidade</Text>
-            </TouchableOpacity>
-            
-          </View>
         </View>
-        
-      <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-      <ScrollView contentContainerStyle={styles.container} showsVerticalScrollIndicator={true} >
-        <Text style={{ fontFamily: 'Harabara', fontSize: 20}}>Definir Dias de Atendimento</Text>
-      <WeekdayButtons/>
-      <View>
-      <ControleAgendas />
+        <LogoMundial />
 
+        <View style={styles.headerBtn}>
+          <TouchableOpacity id='especialidade' style={styles.btn} onPress={() => handleTelaPsicologa('UserPsicologa')}>
+            <Text style={{ fontSize: 22, alignItems: 'center', fontFamily: 'Harabara' }}>Pendentes</Text>
+          </TouchableOpacity>
+          <TouchableOpacity id='especialidade' style={styles.btn} onPress={() => handleTelaHistórico('Tela Historico')}>
+            <Text style={{ fontSize: 22, alignItems: 'center', fontFamily: 'Harabara' }}>Histórico</Text>
+          </TouchableOpacity>
+          <TouchableOpacity id='especialidade' style={styles.btn} onPress={() => handleTelaDisponibilidade('Atendimento Especialista')}>
+            <Text style={{ fontSize: 22, alignItems: 'center', fontFamily: 'Harabara' }}>Disponibilidade</Text>
+          </TouchableOpacity>
+
+        </View>
       </View>
 
-      
-    
+      <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+        <ScrollView contentContainerStyle={styles.container} showsVerticalScrollIndicator={true} >
+          <Text style={{ fontFamily: 'Harabara', fontSize: 20 }}>Definir Dias de Atendimento</Text>
+          <WeekdayButtons />
+          <View>
+            <ControleAgendas />
+
+          </View>
+
+
+
         </ScrollView>
 
-        
+
       </View>
-        
-     
+
+
     </View>
   );
 };
@@ -135,7 +135,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     padding: 15,
     marginBottom: 10,
-    fontSize:22
+    fontSize: 22
   },
   logo: {
     //resizeMode:'contain',
@@ -146,17 +146,17 @@ const styles = StyleSheet.create({
     alignContent: 'flex-start',
     left: '9%',
     marginTop: -15
-},
-logo2: {
-//resizeMode:'contain',
-width: 100,
-height: 100,
-position: "absolute",
-justifyContent: 'flex-start',
-alignContent: 'flex-start',
-left: '15%',
-  marginTop: -15
+  },
+  logo2: {
+    //resizeMode:'contain',
+    width: 100,
+    height: 100,
+    position: "absolute",
+    justifyContent: 'flex-start',
+    alignContent: 'flex-start',
+    left: '15%',
+    marginTop: -15
 
-},
-  
-    });
+  },
+
+});

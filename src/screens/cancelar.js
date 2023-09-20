@@ -10,6 +10,7 @@ import Reagendar from '../screensUsers/Reagendamento';
 import util from '../util/util';
 import TelaErro from './telaErro';
 import styleWebMobile from '../style';
+import { useNavigate } from 'react-router-dom';
 
 
 
@@ -24,7 +25,7 @@ const CancelamentoagendamentosScreen =   () => {
   const [setAgenda, setAgendamento] = useState();
   
 
-  const navigation = useNavigation();
+  const navigation = useNavigate();
   const queryString = window.location.search;
 
   // Cria um objeto URLSearchParams a partir da string de consulta
@@ -91,7 +92,7 @@ const CancelamentoagendamentosScreen =   () => {
 
       }
       finally{
-      navigation.navigate('Home')
+      navigation('/')
 
       }
       };

@@ -10,6 +10,7 @@ import { NavigationContainer, useNavigation } from '@react-navigation/native';
 import FormsAgendamento from '../../components/FormsAgendamento';
 import util, { refrestPage } from '../../util/util';
 import styleWebMobile from '../../style';
+import { useNavigate } from 'react-router-dom';
 
 
 
@@ -27,7 +28,7 @@ const AgendamentoPsicologaMatriz =   () => {
   const [navegar, setNavegar] = useState();
   const [dimensions, setDimension] = useState();
 
-  const navigation = useNavigation();
+  const navigation = useNavigate();
   const especialidade = 'psicologa';
   const servicoId = 'psicologaMatriz';
  
@@ -47,7 +48,7 @@ const AgendamentoPsicologaMatriz =   () => {
      
       if(diasSemanaDisponiveis.length <= 0){
         alert('Sem horarios disponiveis!!');
-         navigation.navigate('Home')
+         navigation('/')
        }
        else{
        setHorario(diasSemanaDisponiveis)
@@ -64,7 +65,7 @@ const AgendamentoPsicologaMatriz =   () => {
     catch (erro){
       console.warn('Não foi possível buscar os dados da API');
       alert('Não foi possível buscar os dados da API');
-      navigation.goBack();
+      navigation('/');
     }
     };
   
@@ -225,7 +226,7 @@ setselectedHorario('')
                           >Escolha uma data e horário</Text>
                 <View style={styles.containerDate}>
                 <CompCalendario />
-                </View>
+                
                 
                     <View style={styles.containerHorario}>
                       <ScrollView contentContainerStyle={styles.contentContainer}>
@@ -309,7 +310,7 @@ setselectedHorario('')
 
      
     </View>
-  
+    </View>
   
   
   )}

@@ -150,6 +150,8 @@ if(exibirTela && navegacao === 'UserPsicologa'){
   }
   const Card = ({ title, description }) => {
     const [expanded, setExpanded] = useState(false);
+    let comp = description.comparecimento === true ? 'SIM' : 'NÃO CONFIRMADO';
+
     //console.log(title, description)
   
     const handleCardPress = () => {
@@ -170,12 +172,13 @@ if(exibirTela && navegacao === 'UserPsicologa'){
             {expanded && 
               <View style={styles.descriptionContainer}>
                 <View style={styles.infoContainer}>                
-                    <View style={styles.infoAgendas}>
+                <View style={styles.infoAgendas}>
                       <Text style={styles.label}><Text style={{fontStyle: 'normal', fontWeight:'bold'}}>Horario:</Text> {moment(description.hora).format('HH:mm')}</Text>
                       <Text style={styles.label}><Text style={{fontStyle: 'normal', fontWeight:'bold'}}>Nome:</Text> {description.nome}</Text>
                       <Text style={styles.label} ><Text style={{fontStyle: 'normal', fontWeight:'bold'}}>Email:</Text> {description.email}</Text>
-                      <Text style={styles.label} ><Text style={{fontStyle: 'normal', fontWeight:'bold'}}>Telefone:</Text> {description.telefone}</Text>
-
+                      <Text style={styles.label} ><Text style={{fontStyle: 'normal', fontWeight:'bold'}}>Telefone:</Text> {description.telefone}</Text>                      
+                      <Text style={styles.label} ><Text style={{fontStyle: 'normal', fontWeight:'bold'}}>Setor:</Text> {description.setor}</Text>
+                      <Text style={styles.label} ><Text style={{fontStyle: 'normal', fontWeight:'bold'}}>Comparecimento:</Text> {comp}</Text>
                     </View> 
                   </View>
               </View>

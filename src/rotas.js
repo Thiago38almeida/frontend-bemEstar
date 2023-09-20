@@ -13,6 +13,8 @@ import Reagendamentos from './screens/reagendamento';
 import TelaMasso from './screensUsers/massoterapeuta/massoterapia';
 import CancelamentoAgendamentoScreen from './screens/cancelar';
 import AdminPanel from './screens/adm/administrador';
+import Reagendar from './screensUsers/Reagendamento';
+import Reagendamento from './components/reagendar';
 
 const Drawer = createDrawerNavigator();
 const Stack = createNativeStackNavigator();
@@ -40,6 +42,7 @@ export default function RotasAgendamentos() {
               {/* Telas dos Formulario de Agendamentos*/}
             <Stack.Screen options={{ headerShown: false }} name="formsAgendamento" navigationKey='/formsAgendamento' key={'/formsAgendamento'} component={FormsAgendamento} />
             <Stack.Screen options={{ headerShown: false }} name="Reagendamento" navigationKey='/Reagendamento' key={'/Reagendamento'} component={Reagendamentos} />
+            <Stack.Screen options={{ headerShown: false }} name="Reagendamentos" navigationKey='/Reagendamento' key={'/Reagendamento'} component={Reagendamento} />
             <Stack.Screen options={{ headerShown: false }} name="Cancelar" navigationKey='/Cancelar' key={'/Cancelar'} component={CancelamentoAgendamentoScreen} />
 
               {/* Rotas Privadas*/}

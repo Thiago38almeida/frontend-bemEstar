@@ -181,77 +181,154 @@ if(exibirTela){
   
 const Card = ({ title, description }) => {
   const [expanded, setExpanded] = useState(false);
-
+  let comp = description.comparecimento === true ? 'SIM' : 'NÃO CONFIRMADO';
+  const styleM = width < 800 ? styles.infoContainerM : styles.infoContainer
   const handleCardPress = () => {
     setExpanded(!expanded);
   };
-  if(!title && !description){
-    return(
-    <>
-      <ActivityIndicator size={100}  />
-      <Text>Nenhum agendamento pendente</Text>
-    </>);
+  if (!title && !description) {
+    return (
+      <>
+        <ActivityIndicator size={100} />
+        <Text>Nenhum agendamento pendente</Text>
+      </>);
   }
 
-  return (
-  
-    <TouchableOpacity id='*' onPress={handleCardPress}>
-         <View style={styles.cardContainer}>
+  if (comp === 'SIM') {
+    return (
+
+      <TouchableOpacity id='*' onPress={handleCardPress}>
+        <View style={styles.cardContainer}>
           <Text style={styles.title1}>{title}</Text>
-          {expanded && 
+          {expanded &&
             <View style={styles.descriptionContainer}>
-              <View style={styles.infoContainer}>
-              
+              <View style={styleM}>
+
                 <View style={styles.infoAgendas}>
 
-                  <Text style={styles.label}><Text style={{fontStyle: 'normal', fontWeight:'bold'}}>Horario:</Text> {moment(description.hora).format('HH:mm')}</Text>
-                  <Text style={styles.label}><Text style={{fontStyle: 'normal', fontWeight:'bold'}}>Nome:</Text> {description.nome}</Text>
-                  <Text style={styles.label} ><Text style={{fontStyle: 'normal', fontWeight:'bold'}}>Email:</Text> {description.email}</Text>
-                  <Text style={styles.label} ><Text style={{fontStyle: 'normal', fontWeight:'bold'}}>Telefone:</Text> {description.telefone}</Text>
-                  <Text style={styles.label} ><Text style={{fontStyle: 'normal', fontWeight:'bold'}}>Setor:</Text> {description.setor}</Text>
-                </View> 
-                    
+                  <Text style={styles.label}><Text style={{ fontStyle: 'normal', fontWeight: 'bold' }}>Horario:</Text> {moment(description.hora).format('HH:mm')}</Text>
+                  <Text style={styles.label}><Text style={{ fontStyle: 'normal', fontWeight: 'bold' }}>Nome:</Text> {description.nome}</Text>
+                  <Text style={styles.label} ><Text style={{ fontStyle: 'normal', fontWeight: 'bold' }}>Email:</Text> {description.email}</Text>
+                  <Text style={styles.label} ><Text style={{ fontStyle: 'normal', fontWeight: 'bold' }}>Telefone:</Text> {description.telefone}</Text>
+                  <Text style={styles.label} ><Text style={{ fontStyle: 'normal', fontWeight: 'bold' }}>Setor:</Text> {description.setor}</Text>
+                  <Text style={styles.label} ><Text style={{ fontStyle: 'normal', fontWeight: 'bold' }}>Comparecimento:</Text> {comp}</Text>
+                </View>
 
-                        <TouchableOpacity id='#1' onPress={() => cancelarAgenda(description.id)}
-                        style={{
-                          borderWidth: 1,
-                          borderColor: '#000',
-                          borderRadius: 30,
-                          padding: 10,
-                          alignItems: 'center',
-                          marginRight: 5,
-                           }}>
-                          <Text style={{ fontFamily: 'Harabara', fontSize: 20}} >
-                          <Feather name="trash-2" size={24} color="black" />
-                          Cancelar 
-                          </Text>
 
-                        </TouchableOpacity>
-                        <TouchableOpacity id='#2' onPress={() => reagendar(description)} style={{
-                          borderWidth: 1,
-                          
-                          borderColor: '#000',
-                          borderRadius: 30,
-                          padding: 10,
-                          alignItems: 'center',
-                          
-                          }}>
-                          <Text style={{ fontFamily: 'Harabara', fontSize: 20}}>  
-                            <FontAwesome name="send-o" size={24} color="black" />
-                            Reagendar
-                          </Text>
-                        </TouchableOpacity>
-                    </View>
-              </View>
-           
+                <TouchableOpacity id='#1' onPress={() => cancelarAgenda(description.id)}
+                  style={{
+                    borderWidth: 1,
+                    borderColor: '#000',
+                    borderRadius: 30,
+                    padding: 10,
+                    alignItems: 'center',
+                    marginRight: 5,
+                  }}>
+                  <Text style={{ fontFamily: 'Harabara', fontSize: 20 }} >
+                    <Feather name="trash-2" size={24} color="black" />
+                    Cancelar
+                  </Text>
+
+                </TouchableOpacity>
+                <TouchableOpacity id='#2' onPress={() => reagendar(description, 'reagendar')} style={{
+                  borderWidth: 1,
+
+                  borderColor: '#000',
+                  borderRadius: 30,
+                  padding: 10,
+                  alignItems: 'center',
+
+                }}>
+                  <Text style={{ fontFamily: 'Harabara', fontSize: 20 }}>
+                    <FontAwesome name="send-o" size={24} color="black" />
+                    Reagendar
+                  </Text>
+                </TouchableOpacity>
+                </View>
+            </View>
+
           }
-          </View>
-       
-  </TouchableOpacity> 
-  
+          
+        </View>
 
-  );
+            
+      </TouchableOpacity>
 
+
+    );
+    
+  } else {
+    return (
+
+      <TouchableOpacity id='*' onPress={handleCardPress}>
+        <View style={styles.cardContainer}>
+          <Text style={styles.title1}>{title}</Text>
+          {expanded &&
+            <View style={styles.descriptionContainer}>
+              <View style={styleM}>
+
+                <View style={styles.infoAgendas}>
+
+                  <Text style={styles.label}><Text style={{ fontStyle: 'normal', fontWeight: 'bold' }}>Horario:</Text> {moment(description.hora).format('HH:mm')}</Text>
+                  <Text style={styles.label}><Text style={{ fontStyle: 'normal', fontWeight: 'bold' }}>Nome:</Text> {description.nome}</Text>
+                  <Text style={styles.label} ><Text style={{ fontStyle: 'normal', fontWeight: 'bold' }}>Email:</Text> {description.email}</Text>
+                  <Text style={styles.label} ><Text style={{ fontStyle: 'normal', fontWeight: 'bold' }}>Telefone:</Text> {description.telefone}</Text>
+                  <Text style={styles.label} ><Text style={{ fontStyle: 'normal', fontWeight: 'bold' }}>Setor:</Text> {description.setor}</Text>
+                  <Text style={styles.label} ><Text style={{ fontStyle: 'normal', fontWeight: 'bold' }}>Comparecimento:</Text> {comp}</Text>
+                </View>
+
+
+                <TouchableOpacity id='#1' onPress={() => cancelarAgenda(description.id)}
+                  style={{
+                    borderWidth: 1,
+                    borderColor: '#000',
+                    borderRadius: 30,
+                    padding: 10,
+                    alignItems: 'center',
+                    marginRight: 5,
+                  }}>
+                  <Text style={{ fontFamily: 'Harabara', fontSize: 20 }} >
+                    <Feather name="trash-2" size={24} color="black" />
+                    Cancelar
+                  </Text>
+
+                </TouchableOpacity>
+                <TouchableOpacity id='#2' onPress={() => reagendar(description, 'reagendar')} style={{
+                  borderWidth: 1,
+
+                  borderColor: '#000',
+                  borderRadius: 30,
+                  padding: 10,
+                  alignItems: 'center',
+
+                }}>
+                  <Text style={{ fontFamily: 'Harabara', fontSize: 20 }}>
+                    <FontAwesome name="send-o" size={24} color="black" />
+                    Reagendar
+                  </Text>
+                </TouchableOpacity>
+
+                <div style={{ width: 'auto', backgroundColor: 'white', display: 'inline-block', marginLeft: 30 }}>
+                  <label>
+                    <input type="checkbox" value={description.id} onChange={(e) => handleComparecimento(e)} />
+                    comparecimento
+                  </label>
+                </div>
+
+                  
+              </View>
+            </View>
+
+          }
+          
+        </View>
+
+            
+      </TouchableOpacity>
+
+
+    );
+  }
 };
 
 

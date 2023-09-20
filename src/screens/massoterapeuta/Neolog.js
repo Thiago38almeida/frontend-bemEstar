@@ -9,6 +9,7 @@ import { NavigationContainer, useNavigation } from '@react-navigation/native';
 import FormsAgendamento from '../../components/FormsAgendamento';
 import util from '../../util/util';
 import styleWebMobile from '../../style';
+import { useNavigate } from 'react-router-dom';
 
 
 const AgendamentoMassoNeolog =   () => {
@@ -25,7 +26,7 @@ const AgendamentoMassoNeolog =   () => {
   const [navegar, setNavegar] = useState();
   const [dimensions, setDimension] = useState();
 
-  const navigation = useNavigation();
+  const navigation = useNavigate();
   const especialidade = 'massoterapia';
   const servicoId = 'massoterapiaGLP';
  
@@ -45,7 +46,7 @@ const AgendamentoMassoNeolog =   () => {
      
       if(diasSemanaDisponiveis.length <= 0){
         alert('Sem horarios disponiveis!!');
-         navigation.navigate('Home')
+         navigation('/')
        }
        else{
        setHorario(diasSemanaDisponiveis)
@@ -62,7 +63,7 @@ const AgendamentoMassoNeolog =   () => {
     catch (erro){
       console.warn('Não foi possível buscar os dados da API');
       alert('Não foi possível buscar os dados da API');
-   navigation.goBack()
+   navigation('/')
     }
     };
   

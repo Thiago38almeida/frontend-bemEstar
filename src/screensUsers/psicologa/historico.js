@@ -2,6 +2,7 @@ import {View, TouchableOpacity, Text,Image, StyleSheet,ScrollView, Pressable, Bu
 import { useState, useEffect } from 'react';
 import TelaPsicologa from './psicologa';
 import AtendimentoEspecialista from "./GerenciamentoAtendimento";
+import Reagendamento from '../../components/reagendar';
 import { Feather,FontAwesome,FontAwesome5, MaterialCommunityIcons  } from '@expo/vector-icons'; 
 import UserIcon from '../../components/iconUsers';
 import { useNavigation } from '@react-navigation/native';
@@ -9,6 +10,8 @@ import axios from 'axios';
 import moment from 'moment';
 import util from '../../util/util';
 import LogoMundial from '../../components/logosMundial';
+import styleWebMobileUsers from '../../styleUsers';
+import { Dimensions } from 'react-native';
 
 
 const Telahistorico = () => {
@@ -17,6 +20,8 @@ const Telahistorico = () => {
   const [navegacao, setnavegacao] = useState();
   const [dados, setDados] = useState([]);
   const [pageAtual, setPageAtual] = useState(1);
+  const [reAgendar, setReagendar] = useState();
+
 
   const navigation = useNavigation();
 
@@ -101,6 +106,13 @@ if(exibirTela && navegacao === 'UserPsicologa'){
         </View>
         )
   }
+  else if (exibirTela && navegacao === 'reagendar') {
+    return (
+      <View>
+        <Reagendamento data={reAgendar.data} horario={reAgendar.hora} id={reAgendar.id} id_especialista={reAgendar.id_especialista} servicoId={reAgendar.servicoId} email={reAgendar.email} />
+      </View>
+    )
+  }
 
   // exporar dados execel
 
@@ -162,11 +174,23 @@ if(exibirTela && navegacao === 'UserPsicologa'){
     }
   }
 
+  //console.log(resultado)
+  function reagendar(event, tela) {
+    alert('Tem certeza que deseja reagendar?')
+    setReagendar(event)
+    setnavegacao(tela)
+    setexibirTela(true)
+  }
   
+  const width = Dimensions.get('window').width
 
+ // console.log(width)
    const Card = ({ title, description }) => {
     const [expanded, setExpanded] = useState(false);
-    //console.log(title, description)
+    let comp = description.comparecimento === true ? 'SIM' : 'NÃO CONFIRMADO';
+    const styleM = width < 800 ? styles.infoContainerM : styles.infoContainer
+
+   //console.log(styleM)
   
     const handleCardPress = () => {
       setExpanded(!expanded);
@@ -185,17 +209,34 @@ if(exibirTela && navegacao === 'UserPsicologa'){
             <Text style={styles.title}>{title}</Text>
             {expanded && 
               <View style={styles.descriptionContainer}>
-                <View style={styles.infoContainer}>                
+                <View style={styleM}>                
                     <View style={styles.infoAgendas}>
                       <Text style={styles.label}><Text style={{fontStyle: 'normal', fontWeight:'bold'}}>Horario:</Text> {moment(description.hora).format('HH:mm')}</Text>
                       <Text style={styles.label}><Text style={{fontStyle: 'normal', fontWeight:'bold'}}>Nome:</Text> {description.nome}</Text>
                       <Text style={styles.label} ><Text style={{fontStyle: 'normal', fontWeight:'bold'}}>Email:</Text> {description.email}</Text>
                       <Text style={styles.label} ><Text style={{fontStyle: 'normal', fontWeight:'bold'}}>Telefone:</Text> {description.telefone}</Text>                      
                       <Text style={styles.label} ><Text style={{fontStyle: 'normal', fontWeight:'bold'}}>Setor:</Text> {description.setor}</Text>
+                      <Text style={styles.label} ><Text style={{fontStyle: 'normal', fontWeight:'bold'}}>Comparecimento:</Text> {comp}</Text>
                     </View> 
-                  </View>
+
+                    <TouchableOpacity id='#2' onPress={() => reagendar(description, 'reagendar')} style={{
+                    borderWidth: 1,
+                    height: 50,
+                    borderColor: '#000',
+                    borderRadius: 30,
+                    padding: 10,
+                    alignItems: 'center',
+  
+                  }}>
+                    <Text style={{ fontFamily: 'Harabara', fontSize: 20 }}>
+                      <FontAwesome name="send-o" size={24} color="black" />
+                      Reagendar
+                    </Text>
+                  </TouchableOpacity>
+                </View>                                 
               </View>
             }
+            
           </View>
     </Pressable> 
     
@@ -229,7 +270,7 @@ if(exibirTela && navegacao === 'UserPsicologa'){
           
         </View>
       </View>
-          <View style={{backgroundColor: '#babcb4'}}>
+          <View style={{backgroundColor: '#eeeeec'}}>
 
             <Button onPress={exportToExcel} title='exportar' color={'green'} />
           <ScrollView>
@@ -291,7 +332,9 @@ if(exibirTela && navegacao === 'UserPsicologa'){
 
 }
 
-const styles = StyleSheet.create({
+const styles = styleWebMobileUsers;
+/*
+StyleSheet.create({
     container:
     {       
       width: '100%',
@@ -421,6 +464,6 @@ logo2: {
     padding: 20,
   
   }
-})
+})*/
 
 export default Telahistorico;

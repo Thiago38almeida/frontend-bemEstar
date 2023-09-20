@@ -22,7 +22,8 @@ const styles = StyleSheet.create({
         justifyContent: 'flex-start',
         alignContent: 'flex-start',
         left: '9%',
-        marginTop: -15
+        marginTop: -7,
+        top: 7
   },
   logo2: {
     //resizeMode:'contain',
@@ -32,7 +33,8 @@ const styles = StyleSheet.create({
     justifyContent: 'flex-start',
     alignContent: 'flex-start',
     left: '15%',
-      marginTop: -15
+      marginTop: -7,
+      top: 7
     
   },
 })

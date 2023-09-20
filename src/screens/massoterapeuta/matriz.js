@@ -10,6 +10,7 @@ import FormsAgendamento from '../../components/FormsAgendamento';
 import util from '../../util/util';
 //import styles from '../../style';
 import styleWebMobile  from '../../style';
+import { useNavigate } from 'react-router-dom';
 //import styleMobile  from '../../style';
 
 
@@ -31,7 +32,7 @@ const AgendamentoMassoMatriz =   () => {
   const [navegar, setNavegar] = useState();
   const [dimensions, setDimension] = useState();
 
-  const navigation = useNavigation();
+  const navigation = useNavigate();
   const especialidade = 'massoterapia';
   const servicoId = 'massoterapiaMatriz';
  
@@ -51,7 +52,7 @@ const AgendamentoMassoMatriz =   () => {
      
       if(diasSemanaDisponiveis.length <= 0){
         alert('Sem horarios disponiveis!!');
-         navigation.navigate('Home')
+         navigation('/')
        }
        else{
        setHorario(diasSemanaDisponiveis)
@@ -68,7 +69,7 @@ const AgendamentoMassoMatriz =   () => {
     catch (erro){
       console.warn('Não foi possível buscar os dados da API');
       alert('Não foi possível buscar os dados da API');
-    navigation.goBack();
+    navigation('/');
     }
     };
   

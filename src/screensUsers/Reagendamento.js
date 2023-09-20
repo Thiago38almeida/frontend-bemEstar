@@ -6,14 +6,14 @@ import axios from 'axios';
 import util from '../util/util';
 
 
-const Reagendar = ({ dataSelecionada, horarioSelecionada, id, id_especialista, servicoId}) => {
+const Reagendar = ({ dataSelecionada, horarioSelecionada, id, id_especialista, servicoId, email}) => {
 
 //const { selectedDate, selectedHorario } = route.params;
 
 const [selectedDate, setSelectedDate] = useState();
 const [selectedHorario, setSelectedHorario] = useState();
 const [name, setName] = useState();
-const [email, setEmail] = useState();
+//const [email, setEmail] = useState();
 const [setor, setSetor] = useState();
 const [telefone, setTelefone] = useState();
 
@@ -133,7 +133,8 @@ function handleSelectChange(event){
             <TextInput
              nativeID='email'
             style={styles.input}
-            onChangeText={(text) => setEmail(text)}
+            value = {email}
+            //onChangeText={(text) => setEmail(text)}
             />
             <Text style={styles.inputBtn}>Telefone:</Text>
             <TextInput

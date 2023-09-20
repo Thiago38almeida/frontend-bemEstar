@@ -7,13 +7,14 @@ import util from '../util/util';
 import RNPickerSelect from 'react-native-picker-select';
 import { useNavigation } from '@react-navigation/native';
 import styleWebMobile from '../style';
+import { useNavigate } from 'react-router-dom';
 
 
 
 const FormsAgendamento = ({ dataSelecionada, horarioSelecionada, id_especialista, servicoId}) => {
 
 //const { selectedDate, selectedHorario } = route.params;
-const navigation = useNavigation();
+const navigation = useNavigate();
 
 const [selectedDate, setSelectedDate] = useState();
 const [selectedHorario, setSelectedHorario] = useState();
@@ -82,7 +83,7 @@ useEffect(() => {
     alert(`Você está agendando para ${name}, dia ${selectedDate}. Horário: ${selectedHorario} no email: ${email}`)
     alert(`Reserva realizada com sucesso!`)
     setTimeout(() => {
-      navigation.goBack();
+      navigation('/');
       setSelectedDate('')
       setSelectedHorario('')
       setName('')
@@ -99,7 +100,7 @@ useEffect(() => {
    
     alert(err.response.data.erro.toString() || 'erro ao agendar!')
     setTimeout(() => {
-    navigation.goBack();
+    navigation('/');
       setSelectedDate('')
       setSelectedHorario('')
       setName('')
@@ -120,7 +121,7 @@ function voltar(tela) {
   setSelectedDate('');
   setSelectedHorario('');
 
-  navigation.navigate('Home');
+  navigation('/');
 
 }
 
