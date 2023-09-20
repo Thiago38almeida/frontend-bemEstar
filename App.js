@@ -18,7 +18,7 @@ const Stack = createNativeStackNavigator();
 
 function WebRoutes() {
   return (
-    <BrowserRouter basename='/bemestar/'>
+    <BrowserRouter >
     <Helmet>
         <title>Bem Estar</title>
       </Helmet>
