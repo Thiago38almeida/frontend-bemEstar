@@ -10,7 +10,7 @@ const Login = () => {
   useEffect(() => {
     document.title = 'Login';
   }, []);
-  alert( document.title)
+  //alert( document.title)
   //console.log(AuthContext.Provider)
   function handledados() {
     if (email && senha) {
